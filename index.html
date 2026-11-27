@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,155 +7,149 @@
 <title>Eletro Inteligente</title>
 
 <style>
-•	{
-box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 
 body {
-font-family: Arial, sans-serif;
-background: #0f172a;
-color: white;
-padding: 14px;
-
-margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+  padding: 14px;
+  margin: 0;
 }
 
 h1 {
-color: #facc15;
-text-align: center;
+  color: #facc15;
+  text-align: center;
 }
 
 .card {
-background: white;
-color: #111;
-border-radius: 14px;
-padding: 18px;
-max-width: 550px;
-margin: auto;
+  background: white;
+  color: #111;
+  border-radius: 14px;
+  padding: 18px;
+  max-width: 550px;
+  margin: auto;
 }
 
 h2 {
-color: #111;
+  color: #111;
 }
 
-
 label {
-display: block;
-font-weight: bold;
-margin-top: 13px;
+  display: block;
+  font-weight: bold;
+  margin-top: 13px;
 }
 
 input, select {
-width: 100%;
-padding: 12px;
-border: 1px solid #ccc;
-border-radius: 9px;
-margin-top: 5px;
-font-size: 16px;
-background: white;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 9px;
+  margin-top: 5px;
+  font-size: 16px;
+  background: white;
 }
 
 input:read-only {
-background: #e2e8f0;
+  background: #e2e8f0;
 }
 
-
 button {
-width: 100%;
-padding: 14px;
-border: none;
-border-radius: 10px;
-font-size: 16px;
-font-weight: bold;
-margin-top: 12px;
-cursor: pointer;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 12px;
+  cursor: pointer;
 }
 
 .btn-gerar {
-background: #facc15;
-color: #111;
+  background: #facc15;
+  color: #111;
 }
 
 .btn-whatsapp {
-background: #16a34a;
-color: white;
-
+  background: #16a34a;
+  color: white;
 }
 
 .btn-pdf {
-background: #e2e8f0;
-color: #111;
+  background: #e2e8f0;
+  color: #111;
 }
 
 .secao {
-background: #f1f5f9;
-padding: 13px;
-border-radius: 10px;
-margin-top: 16px;
+  background: #f1f5f9;
+  padding: 13px;
+  border-radius: 10px;
+  margin-top: 16px;
 }
 
 .secao h3 {
-margin-top: 0;
-color: #0f172a;
+  margin-top: 0;
+  color: #0f172a;
 }
 
 .resultado {
-
-background: #fef9c3;
-padding: 15px;
-border-radius: 10px;
-margin-top: 18px;
-color: #111;
+  background: #fef9c3;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 18px;
+  color: #111;
 }
 
 .total {
-color: #15803d;
-font-size: 27px;
-font-weight: bold;
+  color: #15803d;
+  font-size: 27px;
+  font-weight: bold;
 }
 
 #saida {
-background: #f8fafc;
-color: #111;
-padding: 15px;
-border-radius: 10px;
-margin-top: 15px;
-white-space: pre-wrap;
-
-line-height: 1.6;
+  background: #f8fafc;
+  color: #111;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+  white-space: pre-wrap;
+  line-height: 1.6;
 }
 
 .aviso {
-font-size: 13px;
-color: #475569;
-line-height: 1.5;
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.5;
 }
 
 @media print {
-body {
-background: white;
-color: black;
-padding: 0;
-}
+  body {
+    background: white;
+    color: black;
+    padding: 0;
+  }
 
-h1 {
-color: black;
-}
+  h1 {
+    color: black;
+  }
 
-.card {
-max-width: 100%;
-}
+  .card {
+    max-width: 100%;
+  }
 
-label, input, select, button,
-.resultado, .secao, h2 {
-display: none !important;
-}
+  label, input, select, button,
+  .resultado, .secao, h2 {
+    display: none !important;
+  }
 
-#saida {
-display: block;
-background: white;
-border: 1px solid #ddd;
-}
+  #saida {
+    display: block;
+    background: white;
+    border: 1px solid #ddd;
+  }
 }
 </style>
 </head>
@@ -177,9 +172,7 @@ border: 1px solid #ddd;
 <select id="servico">
 <option>Instalação residencial completa</option>
 <option>Instalação elétrica industrial</option>
-<option>Manutenção elétrica residencial</
-
-option>
+<option>Manutenção elétrica residencial</option>
 <option>Manutenção elétrica industrial</option>
 <option>Instalação de padrão de entrada</option>
 <option>Montagem de quadro QDC</option>
@@ -198,8 +191,7 @@ option>
 <option value="manual">Manual</option>
 </select>
 
-
-<label>Valor da hora por profissional (R$`)</label>
+<label>Valor da hora por profissional (R$)</label>
 <input id="valorHora" type="text" inputmode="decimal" value="0">
 
 <label>Quantidade de profissionais</label>
@@ -211,8 +203,7 @@ option>
 <label>Horas estimadas por serviço</label>
 <input id="horas" type="text" inputmode="decimal" value="0">
 
-<label>Valor da mão de obra (R`$)</label>
-
+<label>Valor da mão de obra (R$)</label>
 <input id="valor" type="text" inputmode="decimal" value="0">
 
 <p class="aviso" id="explicacao">
@@ -227,11 +218,10 @@ da hora por profissional.
 
 <h3>2. Materiais e descontos</h3>
 
-<label>Valor dos materiais (R$`)</label>
+<label>Valor dos materiais (R$)</label>
 <input id="materiais" type="text" inputmode="decimal" value="0">
 
 <label>Desconto (%)</label>
-
 <input id="desconto" type="number" min="0" max="100" step="0.01" value="0">
 
 </div>
@@ -239,23 +229,22 @@ da hora por profissional.
 <div class="resultado">
 
 <p>Mão de obra:
-<strong id="vMao">R`$ 0,00</strong></p>
+<strong id="vMao">R$ 0,00</strong></p>
 
 <p>Materiais:
-<strong id="vMateriais">R$` 0,00</strong></p>
+<strong id="vMateriais">R$ 0,00</strong></p>
 
 <p>Subtotal:
-<strong id="subtotal">R`$ 0,00</strong></p>
+<strong id="subtotal">R$ 0,00</strong></p>
 
 <p>Desconto:
-<strong id="vDesconto">R$` 0,00</strong></p>
+<strong id="vDesconto">R$ 0,00</strong></p>
 
 <hr>
 
-
 <p>VALOR FINAL:</p>
 
-<div class="total" id="vFinal">R`$ 0,00</div>
+<div class="total" id="vFinal">R$ 0,00</div>
 
 </div>
 
@@ -271,7 +260,6 @@ ENVIAR PELO WHATSAPP
 </button>
 
 <button class="btn-pdf" onclick="imprimir()">
-
 IMPRIMIR / SALVAR PDF
 </button>
 
@@ -282,211 +270,208 @@ IMPRIMIR / SALVAR PDF
 <script>
 
 const dinheiro = new Intl.NumberFormat('pt-BR', {
-style: 'currency',
-currency: 'BRL'
+  style: 'currency',
+  currency: 'BRL'
 });
 
 function numeroBR(valor) {
-let texto = String(valor ?? '0')
-.trim()
-.replace(/[R$`\s]/g, '');
+  let texto = String(valor ?? '0')
+    .trim()
+    .replace(/[R$\s]/g, '');
 
-if (!texto) return 0;
+  if (!texto) return 0;
 
+  if (texto.includes(',')) {
+    texto = texto.replace(/\./g, '');
+    texto = texto.replace(',', '.');
+  } else if (/^\d{1,3}(\.\d{3})+$/.test(texto)) {
+    texto = texto.replace(/\./g, '');
+  }
 
-if (texto.includes(',')) {
-texto = texto.replace(/./g, '');
-texto = texto.replace(',', '.');
-} else if (/^\d{1,3}(.\d{3})+`$/.test(texto)) {
-texto = texto.replace(/./g, '');
-}
+  const numero = Number(texto);
 
-const numero = Number(texto);
-
-return Number.isFinite(numero)
-? Math.max(0, numero)
-: 0;
+  return Number.isFinite(numero)
+    ? Math.max(0, numero)
+    : 0;
 }
 
 function atualizarModo() {
-const automatico =
-document.getElementById('modo').value === 'automatico';
+  const automatico =
+    document.getElementById('modo').value === 'automatico';
 
-document.getElementById('valor').readOnly = automatico;
+  document.getElementById('valor').readOnly = automatico;
 
-document.getElementById('explicacao').textContent =
-automatico
-? 'A mão de obra é calculada automaticamente. Para alterar diretamente o preço, selecione o modo manual.'
-: 'Informe manualmente o valor da mão de obra. Você pode voltar ao modo automático quando desejar.';
+  document.getElementById('explicacao').textContent =
+    automatico
+    ? 'A mão de obra é calculada automaticamente. Para alterar diretamente o preço, selecione o modo manual.'
+    : 'Informe manualmente o valor da mão de obra. Você pode voltar ao modo automático quando desejar.';
 
-calcular();
+  calcular();
 }
 
 function calcular() {
 
-const modo = document.getElementById('modo').value;
+  const modo = document.getElementById('modo').value;
 
+  const valorHora = numeroBR(
+    document.getElementById('valorHora').value
+  );
 
-const valorHora = numeroBR(
-document.getElementById('valorHora').value
-);
+  const profissionais = Math.max(1,
+    Math.floor(Number(
+      document.getElementById('profissionais').value
+    ) || 1)
+  );
 
-const profissionais = Math.max(1,
-Math.floor(Number(
-document.getElementById('profissionais').value
-) || 1)
-);
+  const quantidade = Math.max(1,
+    Math.floor(Number(
+      document.getElementById('quantidade').value
+    ) || 1)
+  );
 
-const quantidade = Math.max(1,
-Math.floor(Number(
-document.getElementById('quantidade').value
-) || 1)
-);
+  const horas = numeroBR(
+    document.getElementById('horas').value
+  );
 
-const horas = numeroBR(
-document.getElementById('horas').value
-);
+  const totalHoras = horas * quantidade;
 
+  let mao;
 
-const totalHoras = horas * quantidade;
+  if (modo === 'automatico') {
 
-let mao;
+    mao = profissionais * totalHoras * valorHora;
 
-if (modo === 'automatico') {
+    document.getElementById('valor').value =
+      mao.toFixed(2).replace('.', ',');
 
-mao = profissionais * totalHoras * valorHora;
+  } else {
 
-document.getElementById('valor').value =
-mao.toFixed(2).replace('.', ',');
+    mao = numeroBR(
+      document.getElementById('valor').value
+    );
 
-} else {
+  }
 
-mao = numeroBR(
-document.getElementById('valor').value
-);
+  const materiais = numeroBR(
+    document.getElementById('materiais').value
+  );
 
-}
+  const descontoPercentual = Math.min(
+    100,
+    Math.max(0,
+      Number(document.getElementById('desconto').value) || 0
+    )
+  );
 
-const materiais = numeroBR(
-document.getElementById('materiais').value
-);
+  const subtotal = mao + materiais;
 
-const descontoPercentual = Math.min(
-100,
-Math.max(0,
-Number(document.getElementById('desconto').value) || 0
-)
-);
+  const desconto = subtotal * descontoPercentual / 100;
 
-const subtotal = mao + materiais;
+  const total = subtotal - desconto;
 
-const desconto = subtotal * descontoPercentual / 100;
+  document.getElementById('vMao').textContent =
+    dinheiro.format(mao);
 
-const total = subtotal - desconto;
+  document.getElementById('vMateriais').textContent =
+    dinheiro.format(materiais);
 
-document.getElementById('vMao').textContent =
+  document.getElementById('subtotal').textContent =
+    dinheiro.format(subtotal);
 
-dinheiro.format(mao);
+  document.getElementById('vDesconto').textContent =
+    dinheiro.format(desconto);
 
-document.getElementById('vMateriais').textContent =
-dinheiro.format(materiais);
+  document.getElementById('vFinal').textContent =
+    dinheiro.format(total);
 
-document.getElementById('subtotal').textContent =
-dinheiro.format(subtotal);
-
-document.getElementById('vDesconto').textContent =
-dinheiro.format(desconto);
-
-document.getElementById('vFinal').textContent =
-dinheiro.format(total);
-
-return {
-mao,
-materiais,
-
-subtotal,
-desconto,
-descontoPercentual,
-total,
-valorHora,
-profissionais,
-quantidade,
-horas,
-totalHoras,
-modo
-};
+  return {
+    mao,
+    materiais,
+    subtotal,
+    desconto,
+    descontoPercentual,
+    total,
+    valorHora,
+    profissionais,
+    quantidade,
+    horas,
+    totalHoras,
+    modo
+  };
 }
 
 [
-'modo',
-'valorHora',
-'profissionais',
-'quantidade',
-'horas',
-'valor',
-
-'materiais',
-'desconto'
+  'modo',
+  'valorHora',
+  'profissionais',
+  'quantidade',
+  'horas',
+  'valor',
+  'materiais',
+  'desconto'
 ].forEach(id => {
 
-document.getElementById(id).addEventListener(
-'input',
-() => {
-if (id === 'modo') {
-atualizarModo();
-} else {
-calcular();
-}
-}
-);
+  document.getElementById(id).addEventListener(
+    'input',
+    () => {
+      if (id === 'modo') {
+        atualizarModo();
+      } else {
+        calcular();
+      }
+    }
+  );
 
-document.getElementById(id).addEventListener(
-'change',
-() => {
-if (id === 'modo') atualizarModo();
-else calcular();
-
-}
-);
+  document.getElementById(id).addEventListener(
+    'change',
+    () => {
+      if (id === 'modo') atualizarModo();
+      else calcular();
+    }
+  );
 
 });
 
 function gerar() {
 
-const valores = calcular();
+  const valores = calcular();
 
-const cliente =
-document.getElementById('cliente').value.trim()
-|| 'Não informado';
+  const cliente =
+    document.getElementById('cliente').value.trim()
+    || 'Não informado';
 
-const endereco =
-document.getElementById('endereco').value.trim()
-|| 'Não informado';
+  const endereco =
+    document.getElementById('endereco').value.trim()
+    || 'Não informado';
 
-const servico =
-document.getElementById('servico').value;
+  const servico =
+    document.getElementById('servico').value;
 
+  const descricaoCalculo =
+    valores.modo === 'automatico'
+    ? `Cálculo automático:
+Profissionais: ${valores.profissionais}
+Quantidade de serviços: ${valores.quantidade}
+Horas por serviço: ${valores.horas}
+Total de horas por profissional: ${valores.totalHoras}
+Valor da hora: ${dinheiro.format(valores.valorHora)}`
+    : 'Cálculo da mão de obra: valor informado manualmente.';
 
-const descricaoCalculo =
-valores.modo === 'automatico'
-? Cálculo automático: Profissionais: ${valores.profissionais}
-Quantidade de serviços: ${valores.quantidade} Horas por serviço: ${valores.horas}
-Total de horas por profissional: ${valores.totalHoras} Valor da hora: ${dinheiro.format(valores.valorHora)}`
-: 'Cálculo da mão de obra: valor informado manualmente.';
-
-const texto = `ELETRO INTELIGENTE
+  const texto = `ELETRO INTELIGENTE
 ORÇAMENTO DE SERVIÇOS ELÉTRICOS
 
-Cliente: ${cliente} Endereço: ${endereco}
-Serviço: `${servico}
+Cliente: ${cliente}
+Endereço: ${endereco}
+Serviço: ${servico}
 
-$`{descricaoCalculo}
+${descricaoCalculo}
 
+Mão de obra: ${dinheiro.format(valores.mao)}
+Materiais: ${dinheiro.format(valores.materiais)}
 
-Mão de obra: ${dinheiro.format(valores.mao)} Materiais: ${dinheiro.format(valores.materiais)}
-
-Subtotal: ${dinheiro.format(valores.subtotal)} Desconto: ${valores.descontoPercentual}%
-Valor do desconto: `${dinheiro.format(valores.desconto)}
+Subtotal: ${dinheiro.format(valores.subtotal)}
+Desconto: ${valores.descontoPercentual}%
+Valor do desconto: ${dinheiro.format(valores.desconto)}
 
 VALOR FINAL: ${dinheiro.format(valores.total)}
 
@@ -494,48 +479,45 @@ Agradecemos a preferência!
 
 ELETRO INTELIGENTE`;
 
-document.getElementById('saida').textContent = texto;
+  document.getElementById('saida').textContent = texto;
 
-return texto;
+  return texto;
 }
-
 
 function zap() {
 
-const telefone =
-document.getElementById('telefone')
-.value.replace(/\D/g, '');
+  const telefone =
+    document.getElementById('telefone')
+    .value.replace(/\D/g, '');
 
-if (!telefone) {
-alert('Informe o WhatsApp do cliente com DDD.');
-return;
-}
+  if (!telefone) {
+    alert('Informe o WhatsApp do cliente com DDD.');
+    return;
+  }
 
-let numero = telefone;
+  let numero = telefone;
 
-if (numero.length === 10 || numero.length === 11) {
-numero = '55' + numero;
-}
+  if (numero.length === 10 || numero.length === 11) {
+    numero = '55' + numero;
+  }
 
-if (numero.length !== 12 && numero.length !== 
+  if (numero.length !== 12 && numero.length !== 13) {
+    alert('Número inválido. Confira o DDD e o telefone.');
+    return;
+  }
 
-13) {
-alert('Número inválido. Confira o DDD e o telefone.');
-return;
-}
+  const texto = gerar();
 
-const texto = gerar();
+  const link =
+    'https://wa.me/' + numero +
+    '?text=' + encodeURIComponent(texto);
 
-const link =
-'https://wa.me/' + numero +
-'?text=' + encodeURIComponent(texto);
-
-window.open(link, '_blank');
+  window.open(link, '_blank');
 }
 
 function imprimir() {
-gerar();
-window.print();
+  gerar();
+  window.print();
 }
 
 atualizarModo();
