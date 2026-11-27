@@ -3,85 +3,176 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=devicewidth, initial-scale=1.0">
-<title>Eletro Inteligencia</title>
+<title>Eletro Inteligente</title>
 <style>
-body{fontfamily:Arial;background:#0f172a;color:#fff;paddi
-ng:14px;margin:0}
-.card{background:#fff;color:#111;borderradius:14px;padding:16px;maxwidth:520px;margin:auto}
-h1{color:#facc15;text-align:center}
-label{font-weight:bold;display:block;margintop:10px}
-input,select,textarea{width:100%;padding:11px;b
-order-radius:10px;border:1px solid #ccc;margintop:4px;box-sizing:border-box;font-size:16px}button{width:100%;padding:13px;border:none;bor
-der-radius:11px;font-size:16px;fontweight:bold;margin-top:10px}
-.a{background:#facc15}.v{background:#22c55e;
-color:#fff}.c{background:#e2e8f0}
-.box{background:#fef9c3;padding:12px;borderradius:10px;margin-top:12px}
-.total{font-size:24px;fontweight:bold;color:#16a34a}
+body {
+font-family: Arial;
+background: #0f172a;
+color: #fff;
+padding: 14px;
+margin: 0;
+}
+.card {
+background: #fff;
+color: #111;border-radius: 14px;
+padding: 16px;
+max-width: 520px;
+margin: auto;
+}
+h1 {
+color: #facc15;
+text-align: center;
+}
+label {
+font-weight: bold;
+display: block;
+margin-top: 10px;
+}
+input, select {
+width: 100%;
+padding: 11px;
+border-radius: 10px;
+border: 1px solid #ccc;
+margin-top: 4px;box-sizing: border-box;
+font-size: 16px;
+}
+button {
+width: 100%;
+padding: 13px;
+border: none;
+border-radius: 11px;
+font-size: 16px;
+font-weight: bold;
+margin-top: 10px;
+cursor: pointer;
+}
+.a { background: #facc15; }
+.v { background: #22c55e; color: #fff; }
+.c { background: #e2e8f0; }
+.box {
+background: #fef9c3;
+padding: 12px;
+border-radius: 10px;margin-top: 12px;
+}
+.total {
+font-size: 24px;
+font-weight: bold;
+color: #16a34a;
+}
 </style>
 </head>
 <body>
-<h1>ELETRO INTELIGENCIA</h1>
+<h1>ELETRO INTELIGENTE</h1>
 <div class="card">
 <label>Nome do Cliente</label>
-<input id="cliente">
-<label>Endereco</label>
-<input id="endereco">
-<label>Servico</label>
-<select id="servico"><option>Instalacaoresidencial completa</option><option>Padrao
-de entrada</option><option>Quadro QDC</
-option><option>Outro</option></select>
-<label>Valor da Mao de Obra em Reais</label>
-<input id="valor" type="number" value="6000"
-oninput="atualizar()">
-<label>Desconto em Porcento</label>
-<input id="desconto" type="number" value="0"
-oninput="atualizar()">
-<div class="box">Desconto: <span
-id="vDesconto">0</span><br>Valor Final: <span
-class="total" id="vFinal">6000</span></div>
-<button class="a" onclick="gerar()">GERAR
-ORCAMENTO</button>
-<button class="v" onclick="zap()">ENVIAR PELO
-WHATSAPP</button>
-<button class="c"
-onclick="window.print()">IMPRIMIR / SALVAR
-PDF</button>
-<div id="saida" style="margin-top:14px;whitespace:pre-line"></div>
+<input id="cliente" placeholder="Nome do
+cliente">
+<label>Endereço</label><input id="endereco" placeholder="Endereço da
+obra">
+<label>Serviço</label>
+<select id="servico">
+<option>Instalação residencial completa</
+option>
+<option>Padrão de entrada</option>
+<option>Quadro QDC</option>
+<option>Manutenção elétrica</option>
+<option>Instalação industrial</option>
+<option>Outro</option>
+</select>
+<label>Valor da Mão de Obra (R$`)</label>
+<input id="valor" type="number" min="0"
+step="0.01"
+value="6000">
+<label>Desconto (%)</label><input id="desconto" type="number" min="0"
+max="100"
+step="0.01" value="0">
+<div class="box">
+Desconto: <span id="vDesconto">R$ 0,00&lt;/
+span&gt; &lt;br&gt;&lt;br&gt; Valor Final: &lt;div
+class="total" id="vFinal"&gt;R$ 6.000,00</div>
+</div>
+<label>WhatsApp do Cliente (com DDD)</label>
+<input id="telefone" type="tel"
+placeholder="Ex.: 22999999999">
+<button class="a" onclick="gerar()">
+GERAR ORÇAMENTO
+</button>
+<button class="v" onclick="zap()">
+ENVIAR PELO WHATSAPP</button>
+<button class="c" onclick="window.print()">
+IMPRIMIR / SALVAR PDF
+</button>
+<div id="saida"
+style="margin-top:14px;white-space:pre-line"></
+div>
 </div>
 <script>
-function atualizar(){
-var
-v=Number(document.getElementById('valor').val
-ue);
-var
-d=Number(document.getElementById('desconto')
-.value);
-var desc=v*d/100;
-var fin=v-desc;
+const dinheiro = new Intl.NumberFormat('pt-BR', {
+style: 'currency',
+currency: 'BRL'
+});
+function atualizar() {
+const v = Math.max(0,Number(document.getElementById('valor').value)
+|| 0);
+const d = Math.min(100, Math.max(0,
+Number(document.getElementById('desconto').v
+alue) || 0));
+const desc = v * d / 100;
+const fin = v - desc;
 document.getElementById('vDesconto').textCont
-ent=desc;
-document.getElementById('vFinal').textContent=f
-in;
+ent = dinheiro.format(desc);
+document.getElementById('vFinal').textContent
+= dinheiro.format(fin);
+return {v, d, desc, fin};
 }
-function gerar(){
+document.getElementById('valor').addEventListe
+ner('input', atualizar);
+document.getElementById('desconto').addEventListener('input', atualizar);
+function gerar() {
+const valores = atualizar();
+const cliente =
+document.getElementById('cliente').value || 'Não
+informado';
+const endereco =
+document.getElementById('endereco').value ||
+'Não informado';
+const servico =
+document.getElementById('servico').value;
+const texto =
+`ORÇAMENTO - ELETRO INTELIGENTE
+Cliente: ${cliente} Endereço: ${endereco}
+Serviço: `${servico}Mão de obra:
+{valores.d}%
+Valor do desconto:
+$`{dinheiro.format(valores.desc)}
+VALOR FINAL: `${dinheiro.format(valores.fin)}
+Agradecemos a preferência!`;
+document.getElementById('saida').innerText =
+texto;
+return texto;
+}
+function zap() {
+const telefone =
+document.getElementById('telefone').value.repla
+ce(/\D/g, '');if (!telefone) {
+alert('Informe o WhatsApp do cliente com DDD.');
+document.getElementById('telefone').focus();
+return;
+}
+let numero = telefone;
+if (numero.length === 10 || numero.length ===
+11) {
+numero = '55' + numero;
+}
+if (numero.length < 12 || numero.length > 13) {
+alert('Confira o número do WhatsApp com DDD.');
+return;
+}
+const texto = gerar();
+const link = 'https://wa.me/' + numero + '?text='+ encodeURIComponent(texto);
+window.open(link, '_blank');
+}
 atualizar();
-var t='ORCAMENTO - ELETROINTELIGENCIA\nCliente:
-'+document.getElementById('cliente').value+'\nE
-ndereco:
-'+document.getElementById('endereco').value+'\
-nServico:
-'+document.getElementById('servico').value+'\nV
-alor:
-'+document.getElementById('valor').value+'\nDes
-conto:
-'+document.getElementById('desconto').value+'
-por cento\nFinal:
-'+document.getElementById('vFinal').textContent;
-document.getElementById('saida').innerText=t;
-}
-function zap(){gerar();window.open('https://
-wa.me/5522999999999?
-text='+encodeURIComponent(document.getElem
-entById('saida').innerText));}
 </script>
-</body></html>
+</body>
+</html>
