@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
+<title>Eletro Inteligente</title>
+<style>
+:root{--bg:#0f172a;--panel:#17243b;--panel2:#1e2d46;--line:#334155;--text:#f8fafc;--muted:#a8b6c9;--yellow:#facc15;--green:#22c55e;--red:#f87171}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;line-height:1.45}
+header{padding:20px 16px 14px;text-align:center;background:#111c31;border-bottom:1px solid var(--line)}
+h1{margin:0;color:var(--yellow);font-size:25px}
+header p{margin:5px 0 0;color:var(--muted);font-size:13px}
+nav{display:flex;gap:7px;padding:12px;overflow-x:auto;background:#111c31;position:sticky;top:0;z-index:5}
+nav button{white-space:nowrap;flex:1;min-width:max-content}
+main{max-width:1000px;margin:auto;padding:14px}
+.panel{display:none;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:18px}
+.panel.active{display:block}
+h2{font-size:20px;margin:0 0 14px;color:var(--yellow)}
+h3{font-size:16px;margin:14px 0 8px}
+p.help,.muted{color:var(--muted);font-size:13px}
+label{display:block;font-size:13px;color:#dbe5f2;margin:10px 0 5px}
+input,select,textarea{width:100%;padding:11px;border-radius:8px;border:1px solid #475569;background:#0d1729;color:white;font-size:15px}
+input[type=checkbox]{width:auto;accent-color:var(--yellow);transform:scale(1.15);margin-right:7px}
+button{border:0;border-radius:9px;padding:11px 14px;font-size:14px;font-weight:bold;background:var(--yellow);color:#172033;cursor:pointer}
+button.secondary{background:#334155;color:white}
+button.danger{background:#7f1d1d;color:white}
+button.green{background:#15803d;color:white}
+button:active{opacity:.8}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}
+.env-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.env-option{display:flex;align-items:center;background:#22334e;padding:10px;border-radius:8px;font-size:14px}
+.equip-row{display:grid;grid-template-columns:1.5fr .65fr .8fr .75fr;gap:7px;align-items:end;margin:9px 0;padding:9px;background:#17243b;border-radius:8px}
+.equip-row label{margin:0;font-size:11px}
+.equip-row input,.equip-row select{padding:8px;font-size:13px}
+.equip-row .equip-name{align-self:center;font-size:13px}
+.total{background:#0c1729;border:1px solid #475569;border-radius:10px;padding:13px;margin:12px 0}
+.total strong{color:var(--yellow);font-size:20px}
+.notice{border-left:4px solid var(--yellow);padding:9px 11px;background:#332e19;color:#fef3c7;font-size:12px;border-radius:5px;margin:12px 0}
+.saved-item{border:1px solid var(--line);padding:12px;border-radius:9px;margin:8px 0;background:#1b2a42}
+.small{font-size:12px;color:var(--muted)}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.actions button{flex:1}
+.hidden{display:none!important}
+hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+@media(max-width:600px){main{padding:10px}.panel{padding:12px}.grid{grid-template-columns:1fr}.equip-row{grid-template-columns:1.2fr .7fr .8fr}.equip-row .voltage{grid-column:1/3}.equip-row .remove{grid-column:3}.env-grid{grid-template-columns:1fr 1fr}nav button{padding:10px}}
+@media print{
+ body{background:white!important;color:black!important}
+ header,nav,main>.panel:not(#printArea),#printArea button{display:none!important}
+ main{padding:0;max-width:none}
+ #printArea{display:block!important;border:0!important;background:white!important;color:black!important}
+ #printArea h2,#printArea h3{color:black!important}
+ #printContent{color:black!important}
+}
+
+.plan-toolbar{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.plan-toolbar button{flex:1;min-width:120px}
+.plan-wrap{background:#f8fafc;border-radius:10px;padding:8px;overflow:auto;color:#0f172a}
+#planSvg{width:100%;min-width:600px;height:auto;display:block;touch-action:none;background:#fff;border:1px solid #cbd5e1;border-radius:7px}
+.plan-point{cursor:grab;touch-action:none}.plan-point:active{cursor:grabbing}.plan-legend{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:8px 0}
+.plan-legend span{display:inline-flex;align-items:center;gap:5px}.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.material-table{width:100%;border-collapse:collapse;font-size:13px}.material-table th,.material-table td{border-bottom:1px solid var(--line);padding:8px;text-align:left}.material-table input{max-width:95px;padding:7px}
+.status-calc{color:#86efac}.status-est{color:#fde68a}.status-pend{color:#fca5a5}
+@media(max-width:600px){.plan-toolbar button{min-width:44%;font-size:12px;padding:9px}}
+</style>
+</head>
+<body>
+<header><h1>⚡ Eletro Inteligente</h1><p>Orçamentos, projetos elétricos e organização de serviços</p></header>
+<nav>
+<button onclick="showTab('orcamento')">Orçamentos</button>
+<button class="secondary" onclick="showTab('projeto')">Projetos elétricos</button>
+<button class="secondary" onclick="showTab('registros')">Meus registros</button>
+</nav>
+<main>
+<section id="orcamento" class="panel active">
+<h2>Gerador de orçamento</h2>
+<div class="grid">
+<div><label>Nome do cliente</label><input id="cliente" placeholder="Nome do cliente"></div>
+<div><label>Endereço</label><input id="endereco" placeholder="Endereço da obra"></div>
+</div>
+<label>Descrição do serviço</label><textarea id="servico" rows="2" placeholder="Descreva o serviço a executar"></textarea>
+<div class="grid">
+<div><label>Forma de cálculo da mão de obra</label><select id="modoMao" onchange="atualizarModo()"><option value="auto">Calcular pelas horas</option><option value="manual">Informar valor manual</option></select></div>
+<div><label>Valor da hora por profissional (R$)</label><input id="valorHora" type="number" min="0" step="0.01" value="50" oninput="gerarOrcamento()"></div>
+<div><label>Quantidade de profissionais</label><input id="profissionais" type="number" min="1" value="1" oninput="gerarOrcamento()"></div>
+<div><label>Quantidade de serviços iguais</label><input id="quantidade" type="number" min="1" value="1" oninput="gerarOrcamento()"></div>
+<div><label>Horas por profissional, por serviço</label><input id="horas" type="number" min="0" step="0.5" value="8" oninput="gerarOrcamento()"></div>
+<div id="manualBox" class="hidden"><label>Valor manual da mão de obra (R$)</label><input id="maoManual" type="number" min="0" step="0.01" value="0" oninput="gerarOrcamento()"></div>
+</div>
+<p class="help">As horas representam o tempo de trabalho de cada profissional. Ex.: 2 profissionais trabalhando 8 horas cada = 16 horas-homem.</p>
+<div class="grid">
+<div><label>Custo dos materiais (R$)</label><input id="materiais" type="number" min="0" step="0.01" value="0" oninput="gerarOrcamento()"></div>
+<div><label>Desconto (%)</label><input id="desconto" type="number" min="0" max="100" step="0.1" value="0" oninput="gerarOrcamento()"></div>
+</div>
+<div class="total" id="resultadoOrcamento">Preencha os dados para calcular o orçamento.</div>
+<div class="actions"><button onclick="salvarOrcamento()">Salvar orçamento</button><button class="secondary" onclick="imprimirOrcamento()">Imprimir / PDF</button><button class="green" onclick="whatsappOrcamento()">Enviar pelo WhatsApp</button></div>
+</section>
+
+<section id="projeto" class="panel">
+<h2>Projeto elétrico inteligente</h2>
+<p class="help">Cadastre o projeto, selecione os ambientes e marque os equipamentos. As potências iniciais são referências editáveis, não substituem os dados de placa dos equipamentos.</p>
+<div class="grid">
+<div><label>Nome do projeto</label><input id="projNome" placeholder="Ex.: Residência Silva"></div>
+<div><label>Cliente</label><input id="projCliente" placeholder="Nome do cliente"></div>
+<div><label>Endereço</label><input id="projEndereco" placeholder="Endereço da instalação"></div>
+<div><label>Tipo de instalação</label><select id="projTipo"><option>Residencial</option><option>Comercial</option><option>Industrial</option><option>Outro</option></select></div>
+<div><label>Tensão de referência da instalação</label><select id="projTensao"><option value="127/220">127/220 V</option><option value="220">220 V</option><option value="127">127 V</option><option value="380/220">380/220 V</option><option value="Outro">Outra / definir depois</option></select></div>
+<div><label>Observações</label><input id="projObs" placeholder="Informações adicionais"></div>
+</div>
+<hr>
+<h3>1. Selecione os ambientes do projeto</h3>
+<div class="env-grid" id="environmentList"></div>
+<div class="row" style="margin-top:10px">
+<div><label>Adicionar ambiente personalizado</label><input id="customRoom" placeholder="Ex.: Quarto de hóspedes"></div>
+<div style="align-self:end"><button class="secondary" onclick="addCustomRoom()">Adicionar ambiente</button></div>
+</div>
+<div id="roomsContainer"></div>
+<div class="total" id="projectTotals">
+Potência total selecionada: <strong>0 W</strong><br><span class="small">0,00 kW • 0 ambientes • 0 equipamentos</span>
+</div>
+<div class="notice">A potência total é uma soma de cargas cadastradas. Ela ainda não representa demanda calculada nem dimensionamento final. Para dimensionar circuitos, condutores e proteções serão necessários dados adicionais, como método de instalação, comprimentos, agrupamento, temperatura, queda de tensão e características da alimentação.</div>
+<h3>2. Planta baixa (opcional)</h3>
+<label>Selecionar arquivo da planta</label><input id="plantFile" type="file" accept=".pdf,.png,.jpg,.jpeg">
+<p class="small" id="plantInfo">Nesta versão, o nome do arquivo será registrado; a leitura automática da planta será implementada em etapa futura.</p>
+
+<hr>
+<h3>3. Gerador automático da planta elétrica</h3>
+<p class="help">Gere uma proposta inicial com base nos ambientes, dimensões e equipamentos cadastrados. Os símbolos podem ser reposicionados. A planta gerada é esquemática e precisa ser conferida pelo profissional.</p>
+<div class="grid">
+ <div><label>Origem da planta</label><select id="planSource"><option value="auto">Gerar a partir das medidas cadastradas</option><option value="image">Usar imagem enviada como referência</option><option value="pdf">Usar PDF enviado como referência</option></select></div>
+ <div><label>Localização do QDC</label><select id="qdcRoom"><option value="">Selecionar ambiente</option></select></div>
+</div>
+<div class="plan-toolbar">
+ <button onclick="generateElectricalPlan()">Gerar / atualizar planta</button>
+ <button class="secondary" onclick="addPlanPoint('tomada')">+ Tomada</button>
+ <button class="secondary" onclick="addPlanPoint('luz')">+ Iluminação</button>
+ <button class="secondary" onclick="addPlanPoint('interruptor')">+ Interruptor</button>
+ <button class="secondary" onclick="addPlanPoint('equipamento')">+ Ponto específico</button>
+ <button class="danger" onclick="deleteSelectedPoint()">Excluir selecionado</button>
+</div>
+<div id="planUploadPreview" class="small">A planta enviada será exibida como referência quando o formato for compatível.</div>
+<div class="plan-wrap"><svg id="planSvg" viewBox="0 0 900 620" role="img" aria-label="Editor esquemático da planta elétrica"><text x="450" y="300" text-anchor="middle" fill="#475569">Cadastre ambientes e medidas e clique em Gerar / atualizar planta.</text></svg></div>
+<div class="plan-legend"><span><i class="dot" style="background:#2563eb"></i> Tomada</span><span><i class="dot" style="background:#eab308"></i> Iluminação</span><span><i class="dot" style="background:#16a34a"></i> Interruptor</span><span><i class="dot" style="background:#dc2626"></i> Equipamento específico</span><span>QDC: quadro de distribuição</span></div>
+<div class="card" id="pointEditor"><b>Propriedades do ponto</b><p class="small">Selecione um símbolo na planta para editar o tipo, identificação, altura e circuito.</p></div>
+<h3>4. Lista automática de materiais</h3>
+<p class="help">Quantitativos preliminares vinculados à planta. Edite as quantidades e complete os itens após definir trajetos, método de instalação e especificações reais.</p>
+<div id="materialsSummary" class="total">Gere a planta para calcular a lista preliminar de materiais.</div>
+<div id="materialsList"></div>
+<div class="actions"><button class="secondary" onclick="printMaterials()">Imprimir lista / PDF</button><button onclick="sendMaterialsToQuote()">Usar custo dos materiais no orçamento</button></div>
+<div class="notice">Limite desta versão: a planta é um esquema 2D por ambientes, não uma planta arquitetônica em escala. Imagens podem ser usadas como fundo de referência; PDF é registrado como arquivo de referência, mas ainda não é convertido em desenho editável. Comprimentos de cabos/eletrodutos são estimativas simplificadas até que os trajetos sejam definidos. Não usar quantitativos ou sugestões como dimensionamento final sem conferência técnica.</div>
+
+<div class="actions"><button onclick="saveProject()">Salvar projeto</button><button class="secondary" onclick="printProject()">Relatório / PDF</button></div>
+</section>
+
+<section id="registros" class="panel">
+<h2>Meus registros</h2>
+<h3>Orçamentos salvos</h3><div id="quotesList"></div>
+<hr><h3>Projetos salvos</h3><div id="projectsList"></div>
+</section>
+
+<section id="printArea" class="panel">
+<h2>Relatório - Eletro Inteligente</h2><div id="printContent"></div>
+</section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const money=n=>(Number(n)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const defaultRooms=['Sala de estar','Sala de jantar','Quarto','Suíte','Banheiro','Cozinha','Área de serviço','Varanda','Garagem','Corredor','Escritório','Área externa'];
+const equipmentCatalog={
+'Sala de estar':[['Televisão',150,127],['Ar-condicionado 9.000 BTU/h',900,220],['Ventilador',120,127],['Roteador / modem',20,127]],
+'Sala de jantar':[['Luminária decorativa',100,127],['Ventilador',120,127]],
+'Quarto':[['Televisão',150,127],['Ar-condicionado 9.000 BTU/h',900,220],['Ventilador',120,127],['Computador',300,127]],
+'S suíte':[],
+'Suíte':[['Televisão',150,127],['Ar-condicionado 12.000 BTU/h',1200,220],['Ventilador',120,127]],
+'Banheiro':[['Chuveiro elétrico',5500,220],['Secador de cabelo',1500,127]],
+'Cozinha':[['Geladeira',500,127],['Micro-ondas',1500,127],['Forno elétrico',2000,220],['Cooktop elétrico',3000,220],['Lava-louças',1500,220],['Coifa / exaustor',200,127],['Bebedouro',150,127]],
+'Área de serviço':[['Máquina de lavar roupas',1000,127],['Secadora de roupas',2500,220],['Ferro elétrico',1200,127],['Tanquinho',500,127]],
+'Varanda':[['Ventilador',120,127],['Churrasqueira elétrica',2000,220]],
+'Garagem':[['Carregador veicular (wallbox)',7000,220],['Portão automático',500,220],['Bomba / compressor pequeno',1000,220]],
+'Corredor':[['Luminária / iluminação',100,127]],
+'Escritório':[['Computador',300,127],['Impressora',500,127],['Ar-condicionado 9.000 BTU/h',900,220]],
+'Área externa':[['Bomba d’água',750,220],['Iluminação externa',100,127]]
+};
+let selectedRooms=new Map();
+let currentProjectId=null;
+let planPoints=[];let selectedPointId=null;let planBgUrl=null;let planMaterialRows=[];
+function showTab(id){document.querySelectorAll('main>.panel').forEach(p=>p.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.add('secondary'));const idx={orcamento:0,projeto:1,registros:2}[id];document.querySelectorAll('nav button')[idx].classList.remove('secondary');if(id==='registros')renderSaved();}
+function atualizarModo(){$('manualBox').classList.toggle('hidden',$('modoMao').value!=='manual');gerarOrcamento();}
+function quoteCalc(){const mode=$('modoMao').value;const labor=mode==='manual'?(+ $('maoManual').value||0):(+ $('profissionais').value||0)*(+ $('quantidade').value||0)*(+ $('horas').value||0)*(+ $('valorHora').value||0);const mat=+$('materiais').value||0;const subtotal=labor+mat;const disc=Math.min(100,Math.max(0,+$('desconto').value||0));return {labor,mat,subtotal,discount:subtotal*disc/100,total:subtotal*(1-disc/100),disc};}
+function gerarOrcamento(){const c=quoteCalc();$('resultadoOrcamento').innerHTML=`<div>Mão de obra: <b>${money(c.labor)}</b></div><div>Materiais: <b>${money(c.mat)}</b></div><div>Subtotal: <b>${money(c.subtotal)}</b></div><div>Desconto: <b>${money(c.discount)}</b></div><hr><div>VALOR FINAL: <strong>${money(c.total)}</strong></div>`;return c;}
+function quoteData(){return {id:Date.now(),cliente:$('cliente').value,endereco:$('endereco').value,servico:$('servico').value,modo:$('modoMao').value,valorHora:$('valorHora').value,profissionais:$('profissionais').value,quantidade:$('quantidade').value,horas:$('horas').value,maoManual:$('maoManual').value,materiais:$('materiais').value,desconto:$('desconto').value,calc:quoteCalc(),date:new Date().toLocaleString('pt-BR')};}
+function getStore(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return []}}
+function setStore(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function salvarOrcamento(){const q=quoteData();if(!q.cliente&&!q.servico){alert('Informe pelo menos o cliente ou a descrição do serviço.');return;}const a=getStore('ei_quotes');a.unshift(q);setStore('ei_quotes',a);alert('Orçamento salvo neste navegador.');}
+function loadQuote(id){const q=getStore('ei_quotes').find(x=>x.id===id);if(!q)return;['cliente','endereco','servico'].forEach(k=>$(k).value=q[k]||'');$('modoMao').value=q.modo||'auto';['valorHora','profissionais','quantidade','horas','maoManual','materiais','desconto'].forEach(k=>$(k).value=q[k]??'');atualizarModo();showTab('orcamento');}
+function deleteItem(key,id){if(!confirm('Deseja excluir este registro?'))return;setStore(key,getStore(key).filter(x=>x.id!==id));renderSaved();}
+function renderSaved(){$('quotesList').innerHTML='';const qs=getStore('ei_quotes');if(!qs.length)$('quotesList').innerHTML='<p class="muted">Nenhum orçamento salvo.</p>';qs.forEach(q=>{const d=document.createElement('div');d.className='saved-item';d.innerHTML=`<b>${esc(q.cliente||'Cliente não informado')}</b><div class="small">${esc(q.servico||'Sem descrição')} • ${esc(q.date||'')}</div><b>${money(q.calc?.total||0)}</b><div class="actions"><button onclick="loadQuote(${q.id})">Abrir</button><button class="danger" onclick="deleteItem('ei_quotes',${q.id})">Excluir</button></div>`;$('quotesList').appendChild(d);});$('projectsList').innerHTML='';const ps=getStore('ei_projects');if(!ps.length)$('projectsList').innerHTML='<p class="muted">Nenhum projeto salvo.</p>';ps.forEach(p=>{const d=document.createElement('div');d.className='saved-item';d.innerHTML=`<b>${esc(p.name)}</b><div class="small">${esc(p.client||'')} • ${esc(p.date||'')}</div><div>${(p.totalW||0).toLocaleString('pt-BR')} W • ${p.rooms?.length||0} ambientes</div><div class="actions"><button onclick="openProject(${p.id})">Abrir</button><button class="danger" onclick="deleteItem('ei_projects',${p.id})">Excluir</button></div>`;$('projectsList').appendChild(d);});}
+function roomToggle(name,checked){if(checked){if(!selectedRooms.has(name)){selectedRooms.set(name,{name,length:'',width:'',equipment:[]});const catalog=equipmentCatalog[name]||[];selectedRooms.get(name).equipment=catalog.map((e,i)=>({id:name+'_'+i,name:e[0],watts:e[1],voltage:String(e[2]),qty:1,checked:false}));}}else selectedRooms.delete(name);renderRooms();updateTotals();}
+function renderEnvironmentList(){const q=$('qdcRoom');const old=q.value;q.innerHTML='<option value="">Selecionar ambiente</option>'+Array.from(selectedRooms.keys()).map(n=>`<option ${n===old?'selected':''}>${esc(n)}</option>`).join('');const host=$('environmentList');host.innerHTML='';defaultRooms.forEach(name=>{const l=document.createElement('label');l.className='env-option';const cb=document.createElement('input');cb.type='checkbox';cb.checked=selectedRooms.has(name);cb.onchange=()=>roomToggle(name,cb.checked);l.append(cb,document.createTextNode(name));host.appendChild(l);});}
+function addCustomRoom(){const name=$('customRoom').value.trim();if(!name)return alert('Digite o nome do ambiente.');if(selectedRooms.has(name))return alert('Esse ambiente já foi adicionado.');selectedRooms.set(name,{name,length:'',width:'',equipment:[]});$('customRoom').value='';renderEnvironmentList();renderRooms();updateTotals();}
+function addEquipment(roomName){const r=selectedRooms.get(roomName);if(!r)return;r.equipment.push({id:'custom_'+Date.now(),name:'Equipamento personalizado',watts:0,voltage:'127',qty:1,checked:true});renderRooms();updateTotals();}
+function updateRoomField(roomName,field,value){const r=selectedRooms.get(roomName);if(r)r[field]=value;updateTotals();}
+function updateEquip(roomName,index,field,value){const r=selectedRooms.get(roomName);if(!r)return;const e=r.equipment[index];if(!e)return;e[field]=field==='watts'||field==='qty'?Math.max(0,Number(value)||0):value;updateTotals();}
+function renderRooms(){const host=$('roomsContainer');host.innerHTML='';selectedRooms.forEach((r,name)=>{const card=document.createElement('div');card.className='card';let html=`<h3>${esc(name)}</h3><div class="grid"><div><label>Comprimento (m)</label><input type="number" min="0" step="0.01" value="${esc(r.length)}" onchange="updateRoomField(${JSON.stringify(name)},'length',this.value)"></div><div><label>Largura (m)</label><input type="number" min="0" step="0.01" value="${esc(r.width)}" onchange="updateRoomField(${JSON.stringify(name)},'width',this.value)"></div></div><p class="small">Marque os equipamentos que existem neste ambiente e ajuste quantidade, potência e tensão.</p>`;r.equipment.forEach((e,i)=>{html+=`<div class="equip-row"><div class="equip-name"><label><input type="checkbox" ${e.checked?'checked':''} onchange="updateEquip(${JSON.stringify(name)},${i},'checked',this.checked)">${esc(e.name)}</label></div><div><label>Qtd.</label><input type="number" min="1" value="${e.qty}" onchange="updateEquip(${JSON.stringify(name)},${i},'qty',this.value)"></div><div><label>Potência W</label><input type="number" min="0" value="${e.watts}" onchange="updateEquip(${JSON.stringify(name)},${i},'watts',this.value)"></div><div class="voltage"><label>Tensão</label><select onchange="updateEquip(${JSON.stringify(name)},${i},'voltage',this.value)"><option ${e.voltage==='127'?'selected':''}>127</option><option ${e.voltage==='220'?'selected':''}>220</option><option ${e.voltage==='380'?'selected':''}>380</option><option ${e.voltage==='Outro'?'selected':''}>Outro</option></select></div><div class="remove"><button class="danger" onclick="removeEquip(${JSON.stringify(name)},${i})">Remover</button></div></div>`;});html+=`<div class="actions"><button class="secondary" onclick="addEquipment(${JSON.stringify(name)})">+ Adicionar equipamento</button><button class="danger" onclick="roomToggle(${JSON.stringify(name)},false)">Remover ambiente</button></div><div class="small">Área informada: ${r.length&&r.width?(Number(r.length)*Number(r.width)).toFixed(2).replace('.',',')+' m²':'não informada'}</div>`;card.innerHTML=html;host.appendChild(card);});}
+function removeEquip(roomName,index){const r=selectedRooms.get(roomName);if(r){r.equipment.splice(index,1);renderRooms();updateTotals();}}
+function projectCalc(){let total=0,count=0;selectedRooms.forEach(r=>r.equipment.forEach(e=>{if(e.checked){total+=(Number(e.watts)||0)*(Number(e.qty)||0);count+=Number(e.qty)||0;}}));return {total,count,rooms:selectedRooms.size};}
+function updateTotals(){const t=projectCalc();$('projectTotals').innerHTML=`Potência total selecionada: <strong>${t.total.toLocaleString('pt-BR')} W</strong><br><span class="small">${(t.total/1000).toFixed(2).replace('.',',')} kW • ${t.rooms} ambientes • ${t.count} equipamentos (unidades)</span>`;}
+function projectData(){const t=projectCalc();return {id:currentProjectId||Date.now(),name:$('projNome').value||'Projeto sem nome',client:$('projCliente').value,address:$('projEndereco').value,type:$('projTipo').value,voltage:$('projTensao').value,obs:$('projObs').value,plant:$('plantFile').files[0]?.name||$('plantInfo').dataset.filename||'',rooms:Array.from(selectedRooms.values()).map(r=>JSON.parse(JSON.stringify(r))),totalW:t.total,equipmentCount:t.count,date:new Date().toLocaleString('pt-BR')};}
+function saveProject(){if(!selectedRooms.size)return alert('Selecione pelo menos um ambiente.');const p=projectData();p.planPoints=JSON.parse(JSON.stringify(planPoints));p.materialRows=JSON.parse(JSON.stringify(planMaterialRows));const arr=getStore('ei_projects');const ix=arr.findIndex(x=>x.id===p.id);if(ix>=0)arr[ix]=p;else arr.unshift(p);setStore('ei_projects',arr);currentProjectId=p.id;alert('Projeto salvo neste navegador.');}
+function openProject(id){const p=getStore('ei_projects').find(x=>x.id===id);if(!p)return;currentProjectId=p.id;$('projNome').value=p.name||'';$('projCliente').value=p.client||'';$('projEndereco').value=p.address||'';$('projTipo').value=p.type||'Residencial';$('projTensao').value=p.voltage||'127/220';$('projObs').value=p.obs||'';$('plantInfo').dataset.filename=p.plant||'';$('plantInfo').textContent=p.plant?'Arquivo registrado anteriormente: '+p.plant:'Nesta versão, o nome do arquivo será registrado; a leitura automática da planta será implementada em etapa futura.';selectedRooms=new Map((p.rooms||[]).map(r=>[r.name,r]));planPoints=p.planPoints||[];planMaterialRows=p.materialRows||[];renderPlan();if(planMaterialRows.length)calculateMaterials();renderEnvironmentList();renderRooms();updateTotals();showTab('projeto');}
+function projectReport(p){let rows='';(p.rooms||[]).forEach(r=>{rows+=`<h3>${esc(r.name)}</h3><p>Dimensões: ${esc(r.length||'—')} m × ${esc(r.width||'—')} m</p><ul>`;(r.equipment||[]).filter(e=>e.checked).forEach(e=>rows+=`<li>${esc(e.name)} — ${e.qty} un. × ${e.watts} W = ${(e.qty*e.watts).toLocaleString('pt-BR')} W (${esc(e.voltage)} V)</li>`);rows+='</ul>';});return `<h2>Projeto: ${esc(p.name)}</h2><p><b>Cliente:</b> ${esc(p.client)}<br><b>Endereço:</b> ${esc(p.address)}<br><b>Tipo:</b> ${esc(p.type)}<br><b>Tensão de referência:</b> ${esc(p.voltage)} V</p><h3>Resumo das cargas cadastradas</h3><p><b>${(p.totalW||0).toLocaleString('pt-BR')} W (${((p.totalW||0)/1000).toFixed(2)} kW)</b></p>${rows}<p><b>Observações:</b> ${esc(p.obs)}</p><p><b>Planta:</b> ${esc(p.plant||'Não anexada')}</p><hr><p><b>Importante:</b> Este documento apresenta cadastro preliminar de ambientes e cargas informadas. Não é projeto executivo nem comprovação de conformidade com a ABNT NBR 5410. O dimensionamento de condutores, circuitos e dispositivos de proteção exige dados adicionais e validação de profissional habilitado.</p>`;}
+function printProject(){const p=projectData();$('printContent').innerHTML=projectReport(p);$('printArea').classList.add('active');window.print();$('printArea').classList.remove('active');}
+function imprimirOrcamento(){const q=quoteData();$('printContent').innerHTML=`<h2>Orçamento de serviços elétricos</h2><p><b>Cliente:</b> ${esc(q.cliente)}<br><b>Endereço:</b> ${esc(q.endereco)}<br><b>Serviço:</b> ${esc(q.servico)}</p><p>Mão de obra: ${money(q.calc.labor)}<br>Materiais: ${money(q.calc.mat)}<br>Subtotal: ${money(q.calc.subtotal)}<br>Desconto: ${money(q.calc.discount)}</p><h2>Valor final: ${money(q.calc.total)}</h2>`;$('printArea').classList.add('active');window.print();$('printArea').classList.remove('active');}
+function whatsappOrcamento(){const q=quoteData();const msg=`*ORÇAMENTO - ELETRO INTELIGENTE*%0ACliente: ${encodeURIComponent(q.cliente)}%0AEndereço: ${encodeURIComponent(q.endereco)}%0AServiço: ${encodeURIComponent(q.servico)}%0AValor final: ${encodeURIComponent(money(q.calc.total))}`;window.open('https://wa.me/?text='+msg,'_blank');}
+$('plantFile').addEventListener('change',e=>{const f=e.target.files[0];$('plantInfo').textContent=f?'Arquivo selecionado: '+f.name:'Nenhum arquivo selecionado.';});
+
+function planRoomPositions(){const rooms=Array.from(selectedRooms.values());const valid=rooms.filter(r=>Number(r.length)>0&&Number(r.width)>0);if(!valid.length)return [];const maxW=Math.max(...valid.map(r=>Number(r.length)));const maxH=Math.max(...valid.map(r=>Number(r.width)));const scale=Math.min(650/(maxW*2.2),420/(maxH*2.2),95);return valid.map((r,i)=>{const col=i%2,row=Math.floor(i/2);const x=55+col*410,y=55+row*250;const w=Math.max(90,Number(r.length)*scale),h=Math.max(75,Number(r.width)*scale);return {room:r,x,y,w:Math.min(w,360),h:Math.min(h,200)};});}
+function roomEquipmentPoints(room){return (room.equipment||[]).filter(e=>e.checked&&Number(e.qty)>0);}
+function generateElectricalPlan(){const boxes=planRoomPositions();if(!boxes.length){alert('Informe comprimento e largura de pelo menos um ambiente.');return;}const old=planPoints.slice();planPoints=[];let n=0;boxes.forEach((b,ri)=>{const x=b.x,y=b.y,w=b.w,h=b.h;const add=(type,px,py,label,roomName)=>planPoints.push({id:'pt_'+Date.now()+'_'+(++n),type,x:px,y:py,label,room:roomName,height:type==='tomada'?'0,30 m':type==='interruptor'?'1,10 m':'Teto',circuit:'A definir'});
+ add('luz',x+w/2,y+h/2,'L'+(ri+1),b.room.name);
+ add('interruptor',x+22,y+18,'S'+(ri+1),b.room.name);
+ const area=Number(b.room.length)*Number(b.room.width);let outlets=Math.max(1,Math.ceil((2*(Number(b.room.length)+Number(b.room.width)))/5));if(/cozinha|serviço|banheiro|garagem/i.test(b.room.name))outlets=Math.max(outlets,3);
+ for(let k=0;k<outlets;k++){const side=k%4,frac=(Math.floor(k/4)+1)/(Math.ceil(outlets/4)+1);let px=x+10,py=y+10;if(side===0){px=x+frac*w;py=y+5}else if(side===1){px=x+w-5;py=y+frac*h}else if(side===2){px=x+frac*w;py=y+h-5}else{px=x+5;py=y+frac*h}add('tomada',px,py,'T'+(ri+1)+'-'+(k+1),b.room.name);}
+ roomEquipmentPoints(b.room).forEach((e,ei)=>{const count=Math.min(Number(e.qty)||1,6);for(let k=0;k<count;k++)add('equipamento',x+w*(.25+.12*k),y+h-20,('E'+(ri+1)+'-'+(ei+1)+(count>1?'-'+(k+1):'')),b.room.name);});
+ });const qroom=$('qdcRoom').value||boxes[0].room.name;planPoints.push({id:'qdc_'+Date.now(),type:'qdc',x:boxes[0].x+boxes[0].w-22,y:boxes[0].y+25,label:'QDC',room:qroom,height:'1,50 m',circuit:'Quadro'});renderPlan();calculateMaterials();}
+function symbolColor(t){return ({tomada:'#2563eb',luz:'#eab308',interruptor:'#16a34a',equipamento:'#dc2626',qdc:'#7c3aed'})[t]||'#64748b';}
+function symbolText(t){return ({tomada:'T',luz:'L',interruptor:'S',equipamento:'E',qdc:'Q'})[t]||'?';}
+function renderPlan(){const svg=$('planSvg');let out='';if(planBgUrl)out+=`<image href="${planBgUrl}" x="10" y="10" width="880" height="590" preserveAspectRatio="xMidYMid meet" opacity="0.42"/>`;const boxes=planRoomPositions();boxes.forEach(b=>{out+=`<rect x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" fill="#f8fafc" stroke="#334155" stroke-width="3"/><text x="${b.x+b.w/2}" y="${b.y+b.h/2+5}" text-anchor="middle" font-size="15" fill="#64748b">${esc(b.room.name)}</text><text x="${b.x+b.w/2}" y="${b.y+b.h/2+23}" text-anchor="middle" font-size="10" fill="#64748b">${esc(b.room.length)} × ${esc(b.room.width)} m</text>`;});planPoints.forEach(p=>{const c=symbolColor(p.type),sel=p.id===selectedPointId;out+=`<g class="plan-point" data-point="${esc(p.id)}"><circle cx="${p.x}" cy="${p.y}" r="${sel?14:11}" fill="${c}" stroke="${sel?'#111827':'white'}" stroke-width="${sel?4:2}"/><text x="${p.x}" y="${p.y+4}" text-anchor="middle" font-size="10" font-weight="bold" fill="white" pointer-events="none">${symbolText(p.type)}</text><text x="${p.x+13}" y="${p.y-12}" font-size="10" fill="#111827" font-weight="bold" pointer-events="none">${esc(p.label)}</text></g>`;});svg.innerHTML=out||'<text x="450" y="300" text-anchor="middle">Sem elementos para exibir.</text>';svg.querySelectorAll('[data-point]').forEach(g=>{g.addEventListener('pointerdown',startPointDrag);g.addEventListener('click',()=>selectPlanPoint(g.dataset.point));});}
+let dragPoint=null;function svgCoords(ev){const svg=$('planSvg'),r=svg.getBoundingClientRect(),pt=svg.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;const p=pt.matrixTransform(svg.getScreenCTM().inverse());return {x:Math.max(15,Math.min(885,p.x)),y:Math.max(15,Math.min(605,p.y))};}
+function startPointDrag(ev){ev.preventDefault();const id=ev.currentTarget.dataset.point;selectPlanPoint(id);dragPoint=id;const svg=$('planSvg');svg.setPointerCapture?.(ev.pointerId);const move=e=>{if(!dragPoint)return;const p=planPoints.find(x=>x.id===dragPoint);if(!p)return;const c=svgCoords(e);p.x=c.x;p.y=c.y;renderPlan();};const end=()=>{dragPoint=null;svg.removeEventListener('pointermove',move);svg.removeEventListener('pointerup',end);svg.removeEventListener('pointercancel',end);calculateMaterials();};svg.addEventListener('pointermove',move);svg.addEventListener('pointerup',end,{once:true});svg.addEventListener('pointercancel',end,{once:true});}
+function selectPlanPoint(id){selectedPointId=id;const p=planPoints.find(x=>x.id===id);if(!p)return;renderPlan();$('pointEditor').innerHTML=`<b>Editar ponto selecionado</b><div class="grid"><div><label>Tipo</label><select id="editPointType"><option value="tomada" ${p.type==='tomada'?'selected':''}>Tomada</option><option value="luz" ${p.type==='luz'?'selected':''}>Iluminação</option><option value="interruptor" ${p.type==='interruptor'?'selected':''}>Interruptor</option><option value="equipamento" ${p.type==='equipamento'?'selected':''}>Ponto específico</option><option value="qdc" ${p.type==='qdc'?'selected':''}>QDC</option></select></div><div><label>Identificação</label><input id="editPointLabel" value="${esc(p.label)}"></div><div><label>Ambiente</label><input id="editPointRoom" value="${esc(p.room)}"></div><div><label>Altura / posição</label><input id="editPointHeight" value="${esc(p.height)}"></div><div><label>Circuito</label><input id="editPointCircuit" value="${esc(p.circuit)}"></div></div><div class="actions"><button onclick="applyPointEdit()">Aplicar alterações</button></div>`;}
+function applyPointEdit(){const p=planPoints.find(x=>x.id===selectedPointId);if(!p)return;p.type=$('editPointType').value;p.label=$('editPointLabel').value;p.room=$('editPointRoom').value;p.height=$('editPointHeight').value;p.circuit=$('editPointCircuit').value;renderPlan();calculateMaterials();selectPlanPoint(p.id);}
+function addPlanPoint(type){if(!planPoints.length&&!selectedRooms.size)return alert('Cadastre ambientes e gere a planta primeiro.');const p={id:'manual_'+Date.now(),type,x:450+Math.random()*40,y:300+Math.random()*40,label:'Novo '+symbolText(type),room:selectedRooms.keys().next().value||'',height:'A definir',circuit:'A definir'};planPoints.push(p);renderPlan();selectPlanPoint(p.id);calculateMaterials();}
+function deleteSelectedPoint(){if(!selectedPointId)return alert('Selecione um ponto na planta.');planPoints=planPoints.filter(p=>p.id!==selectedPointId);selectedPointId=null;renderPlan();$('pointEditor').innerHTML='<b>Propriedades do ponto</b><p class="small">Selecione um símbolo na planta.</p>';calculateMaterials();}
+function calculateMaterials(){const count=t=>planPoints.filter(p=>p.type===t).length;const outlets=count('tomada'),lights=count('luz'),switches=count('interruptor'),special=count('equipamento'),rooms=Array.from(selectedRooms.values());const valid=rooms.filter(r=>Number(r.length)>0&&Number(r.width)>0);const perimeter=valid.reduce((s,r)=>s+2*(Number(r.length)+Number(r.width)),0);const area=valid.reduce((s,r)=>s+Number(r.length)*Number(r.width),0);const rows=[
+{name:'Caixa 4×2',qty:outlets+switches,price:0,unit:'un.',status:'Calculado',note:'Uma por ponto de tomada/interruptor, sujeito a ajuste'},
+{name:'Caixa octogonal / ponto de teto',qty:lights,price:0,unit:'un.',status:'Calculado',note:'Uma por ponto de iluminação'},
+{name:'Tomada / módulo',qty:outlets,price:0,unit:'un.',status:'Calculado',note:'Conferir padrão, corrente nominal e configuração'},
+{name:'Interruptor / módulo',qty:switches,price:0,unit:'un.',status:'Calculado',note:'Conferir quantidade de teclas e comando'},
+{name:'Pontos específicos',qty:special,price:0,unit:'un.',status:'Calculado',note:'Equipamentos selecionados; acessórios dependem da carga'},
+{name:'Eletroduto (estimativa inicial)',qty:Math.ceil(perimeter*0.65),price:0,unit:'m',status:'Estimado',note:'Fator preliminar; falta traçado real dos caminhos'},
+{name:'Condutores 1,5 mm² (estimativa)',qty:Math.ceil(perimeter*0.55*3),price:0,unit:'m',status:'Estimado',note:'Não é dimensionamento; revisar circuitos e retornos'},
+{name:'Condutores 2,5 mm² (estimativa)',qty:Math.ceil(perimeter*0.75*3),price:0,unit:'m',status:'Estimado',note:'Não é dimensionamento; revisar cargas e método'},
+{name:'Caixas de passagem',qty:Math.max(0,Math.ceil(perimeter/12)),price:0,unit:'un.',status:'Estimado',note:'Depende dos trajetos, curvas e acessibilidade'},
+{name:'Quadro de distribuição',qty:1,price:0,unit:'un.',status:'Pendente',note:'Definir número de circuitos, reserva e montagem'},
+{name:'Disjuntores',qty:'A definir',unit:'un.',status:'Pendente',note:'Depende do dimensionamento e coordenação'},
+{name:'DR / IDR',qty:'A definir',unit:'un.',status:'Pendente',note:'Definir conforme circuitos e requisitos aplicáveis'},
+{name:'DPS',qty:'A definir',unit:'un.',status:'Pendente',note:'Definir conforme alimentação e análise de risco/requisitos'},
+{name:'Condutor PE / aterramento',qty:'A definir',unit:'m',status:'Pendente',note:'Definir seção, percurso e sistema de aterramento'},
+{name:'Conectores, terminais, fixadores e fita',qty:'A estimar',price:0,unit:'lote',status:'Estimado',note:'Ajustar conforme padrão de execução'},
+{name:'Disjuntores por circuito',qty:'A definir',price:0,unit:'un.',status:'Pendente',note:'Corrente nominal, curva, capacidade de interrupção e polos a dimensionar'},
+{name:'Barramentos de neutro e proteção',qty:'A definir',price:0,unit:'un.',status:'Pendente',note:'Compatibilizar com o QDC e a configuração da instalação'},
+{name:'Trilho DIN e acessórios do QDC',qty:'A definir',price:0,unit:'un.',status:'Pendente',note:'Definir conforme módulos e invólucro'},
+{name:'Haste e conexões de aterramento',qty:'A definir',price:0,unit:'conj.',status:'Pendente',note:'Depende do sistema de aterramento e projeto'},
+{name:'Etiquetas e identificação de circuitos',qty:'A estimar',price:0,unit:'lote',status:'Estimado',note:'Identificação de quadro, cabos e circuitos'},
+{name:'Buchas, arruelas, curvas e luvas',qty:'A estimar',price:0,unit:'lote',status:'Estimado',note:'Quantificar após definição do traçado e diâmetros'}
+];planMaterialRows=rows;$('materialsSummary').innerHTML=`<b>Levantamento preliminar</b><br>${outlets} tomadas • ${lights} pontos de luz • ${switches} interruptores • ${special} pontos específicos<br>${valid.length} ambientes com medidas • área ${area.toFixed(2)} m² • perímetro somado ${perimeter.toFixed(2)} m<br><b id="materialCostTotal">Custo informado dos materiais: ${money(0)}</b>`;$('materialsList').innerHTML=`<div style="overflow-x:auto"><table class="material-table"><thead><tr><th>Material</th><th>Qtd.</th><th>Un.</th><th>Preço unit. (R$)</th><th>Situação</th><th>Observação</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td>${esc(r.name)}</td><td>${typeof r.qty==='number'?`<input type="number" min="0" step="1" value="${r.qty}" onchange="editMaterialQty(${i},this.value)">`:esc(r.qty)}</td><td>${r.unit}</td><td><input type="number" min="0" step="0.01" placeholder="R$ un." value="${r.price||0}" onchange="editMaterialPrice(${i},this.value)"></td><td class="${r.status==='Calculado'?'status-calc':r.status==='Estimado'?'status-est':'status-pend'}">${r.status}</td><td>${esc(r.note)}</td></tr>`).join('')}</tbody></table></div>`;}
+function editMaterialQty(i,v){if(planMaterialRows[i]){planMaterialRows[i].qty=Math.max(0,Number(v)||0);updateMaterialTotal();}}
+function editMaterialPrice(i,v){if(planMaterialRows[i]){planMaterialRows[i].price=Math.max(0,Number(v)||0);updateMaterialTotal();}}
+function updateMaterialTotal(){const total=planMaterialRows.reduce((s,r)=>s+(typeof r.qty==='number'?r.qty:0)*(Number(r.price)||0),0);const el=$('materialCostTotal');if(el)el.textContent='Custo informado dos materiais: '+money(total);}
+function sendMaterialsToQuote(){const total=planMaterialRows.reduce((s,r)=>s+(typeof r.qty==='number'?r.qty:0)*(Number(r.price)||0),0);if(total<=0)return alert('Informe os preços unitários dos materiais na tabela antes de enviar o custo ao orçamento.');$('materiais').value=total.toFixed(2);gerarOrcamento();showTab('orcamento');alert('Custo dos materiais transferido para o orçamento.');}
+function printMaterials(){const rows=planMaterialRows.map(r=>`<tr><td>${esc(r.name)}</td><td>${esc(r.qty)}</td><td>${esc(r.unit)}</td><td>${money(r.price||0)}</td><td>${esc(r.status)}</td><td>${esc(r.note)}</td></tr>`).join('');$('printContent').innerHTML=`<h2>Lista preliminar de materiais — ${esc($('projNome').value||'Projeto')}</h2><table style="width:100%;border-collapse:collapse" border="1" cellpadding="6"><tr><th>Material</th><th>Quantidade</th><th>Un.</th><th>Preço unitário</th><th>Situação</th><th>Observação</th></tr>${rows}</table><p>Quantitativos preliminares. Conferir projeto, trajetos, dimensionamento e condições reais da instalação.</p>`;$('printArea').classList.add('active');window.print();$('printArea').classList.remove('active');}
+$('qdcRoom').addEventListener('focus',()=>{const sel=$('qdcRoom'),old=sel.value;sel.innerHTML='<option value="">Selecionar ambiente</option>'+Array.from(selectedRooms.keys()).map(n=>`<option ${n===old?'selected':''}>${esc(n)}</option>`).join('');});
+$('plantFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;$('planUploadPreview').textContent='Arquivo selecionado: '+f.name;if(f.type.startsWith('image/')){const reader=new FileReader();reader.onload=ev=>{planBgUrl=ev.target.result;renderPlan();};reader.readAsDataURL(f);}else if(f.type==='application/pdf'||f.name.toLowerCase().endsWith('.pdf')){$('planUploadPreview').textContent='PDF selecionado: '+f.name+'. Nesta versão o PDF fica identificado como referência; a visualização e calibração sobre o editor serão implementadas em etapa posterior.';}});
+
+renderEnvironmentList();renderRooms();updateTotals();gerarOrcamento();
+</script>
+</body>
+</html>
