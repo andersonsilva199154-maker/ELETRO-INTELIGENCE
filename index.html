@@ -11,10 +11,10 @@ ng:14px;margin:0}
 h1{color:#facc15;text-align:center}
 label{font-weight:bold;display:block;margintop:10px}
 input,select,textarea{width:100%;padding:11px;b
-order-radius:10px;border:1px solid #ccc;margintop:4px;box-sizing:border-box;font-size:16px}
-button{width:100%;padding:13px;border:none;bor
+order-radius:10px;border:1px solid #ccc;margintop:4px;box-sizing:border-box;font-size:16px}button{width:100%;padding:13px;border:none;bor
 der-radius:11px;font-size:16px;fontweight:bold;margin-top:10px}
-.a{background:#facc15}.v{background:#22c55e;color:#fff}.c{background:#e2e8f0}
+.a{background:#facc15}.v{background:#22c55e;
+color:#fff}.c{background:#e2e8f0}
 .box{background:#fef9c3;padding:12px;borderradius:10px;margin-top:12px}
 .total{font-size:24px;fontweight:bold;color:#16a34a}
 </style>
@@ -23,32 +23,22 @@ der-radius:11px;font-size:16px;fontweight:bold;margin-top:10px}
 <h1>ELETRO INTELIGENCIA</h1>
 <div class="card">
 <label>Nome do Cliente</label>
-<input id="cliente" placeholder="Ex: Maria Silva">
-<label>Endereco da Obra</label>
-<input id="endereco" placeholder="Rua, Campos
-- RJ">
+<input id="cliente">
+<label>Endereco</label>
+<input id="endereco">
 <label>Servico</label>
-<select id="servico">
-<option>Instalacao eletrica residencial
-completa</option>
-<option>Padrao de entrada</option>
-<option>Quadro QDC</option>
-<option>Fiacao</option>
-<option>Tomadas e interruptores</option>
-<option>Outro servico</option></select>
-<label>Valor da Mao de Obra (R$)</label>
-<input id="valor" type="number" value="6000"oninput=calc()">
-<label>Desconto (%)</label>
-<input id="desconto" type="number" value="0"oninput="calc()">
-<label>Observacoes</label>
-<textarea id="obs">Materiais por conta do
-cliente.</textarea>
-<div class="box">
-Desconto: <span id="vDesconto">R$ 0,00</
-span><br>
-Valor Final: <span class="total" id="vFinal">R$
-6.000,00</span>
-</div>
+<select id="servico"><option>Instalacaoresidencial completa</option><option>Padrao
+de entrada</option><option>Quadro QDC</
+option><option>Outro</option></select>
+<label>Valor da Mao de Obra em Reais</label>
+<input id="valor" type="number" value="6000"
+oninput="atualizar()">
+<label>Desconto em Porcento</label>
+<input id="desconto" type="number" value="0"
+oninput="atualizar()">
+<div class="box">Desconto: <span
+id="vDesconto">0</span><br>Valor Final: <span
+class="total" id="vFinal">6000</span></div>
 <button class="a" onclick="gerar()">GERAR
 ORCAMENTO</button>
 <button class="v" onclick="zap()">ENVIAR PELO
@@ -57,41 +47,41 @@ WHATSAPP</button>
 onclick="window.print()">IMPRIMIR / SALVAR
 PDF</button>
 <div id="saida" style="margin-top:14px;whitespace:pre-line"></div>
-</div><script>
-function calc(){
+</div>
+<script>
+function atualizar(){
 var
-v=parseFloat(document.getElementById('valor').v
-alue)||0;
+v=Number(document.getElementById('valor').val
+ue);
 var
-d=parseFloat(document.getElementById('descon
-to').value)||0;
+d=Number(document.getElementById('desconto')
+.value);
 var desc=v*d/100;
 var fin=v-desc;
 document.getElementById('vDesconto').textCont
-ent='R$ '+desc.toFixed(2);
-document.getElementById('vFinal').textContent='
-R$ '+fin.toFixed(2);
-return {v:v,desc:desc,fin:fin};
+ent=desc;
+document.getElementById('vFinal').textContent=f
+in;
 }
-document.getElementById('valor').addEventListe
-ner('input',calc);
-document.getElementById('desconto').addEventL
-istener('input',calc);
 function gerar(){
-var r=calc();
-var t='ORCAMENTO - ELETRO
-INTELIGENCIA\nCliente:'+document.getElementById('cliente').value+'\nE
+atualizar();
+var t='ORCAMENTO - ELETROINTELIGENCIA\nCliente:
+'+document.getElementById('cliente').value+'\nE
 ndereco:
 '+document.getElementById('endereco').value+'\
 nServico:
 '+document.getElementById('servico').value+'\nV
-alor: R$ '+r.v+'\nDesconto: R$ '+r.desc+'\nVALOR
-FINAL: R$ '+r.fin;
+alor:
+'+document.getElementById('valor').value+'\nDes
+conto:
+'+document.getElementById('desconto').value+'
+por cento\nFinal:
+'+document.getElementById('vFinal').textContent;
 document.getElementById('saida').innerText=t;
-));}
-calc();
-</script>
-</body>
-</html>
 }
-function zap(){gerar();window.open('
+function zap(){gerar();window.open('https://
+wa.me/5522999999999?
+text='+encodeURIComponent(document.getElem
+entById('saida').innerText));}
+</script>
+</body></html>
