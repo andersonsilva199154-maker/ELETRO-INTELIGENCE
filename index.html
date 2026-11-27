@@ -3,113 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=devicewidth, initial-scale=1.0">
-<title>Eletro Inteligência - Orçamento</title>
+<title>Eletro Inteligencia</title>
 <style>
-body{font-family:Arial,sansserif;background:#0f172a;color:#fff;margin:0;pad
-ding:16px}
-.card{background:#fff;color:#111;borderradius:16px;padding:18px;maxwidth:520px;margin:auto}
-h1{color:#facc15;text-align:center;margin:0}
-p.sub{text-align:center;color:#cbd5e1}
-label{font-weight:bold;display:block;margintop:12px}
-input,select,textarea{width:100%;padding:12px;b
-order-radius:10px;border:1px solid #ccc;margintop:5px;box-sizing:border-box;font-size:16px}
-button{width:100%;padding:14px;border:none;bor
-der-radius:12px;font-size:17px;fontweight:bold;margin-top:12px;cursor:pointer}
-.btn-amarelo{background:#facc15}
-.btn-verde{background:#22c55e;color:#fff}
-.btn-cinza{background:#e2e8f0}
-.resultado{background:#fef9c3;borderradius:12px;padding:14px;margin-top:14px}
-.total{font-size:26px;fontweight:bold;color:#16a34a;display:block}
+body{fontfamily:Arial;background:#0f172a;color:#fff;paddi
+ng:14px;margin:0}
+.card{background:#fff;color:#111;borderradius:14px;padding:16px;maxwidth:520px;margin:auto}
+h1{color:#facc15;text-align:center}
+label{font-weight:bold;display:block;margintop:10px}
+input,select,textarea{width:100%;padding:11px;b
+order-radius:10px;border:1px solid #ccc;margintop:4px;box-sizing:border-box;font-size:16px}
+button{width:100%;padding:13px;border:none;bor
+der-radius:11px;font-size:16px;fontweight:bold;margin-top:10px}
+.a{background:#facc15}.v{background:#22c55e;color:#fff}.c{background:#e2e8f0}
+.box{background:#fef9c3;padding:12px;borderradius:10px;margin-top:12px}
+.total{font-size:24px;fontweight:bold;color:#16a34a}
 </style>
 </head>
 <body>
-<h1>Õ ELETRO INTELIGÊNCIA</h1>
-<p class="sub">Gerador de Orçamento Elétrico</
-p>
+<h1>ELETRO INTELIGENCIA</h1>
 <div class="card">
 <label>Nome do Cliente</label>
-<input id="cliente" placeholder="Ex: Maria Silva"><label>Endereço da Obra</label>
-<input id="endereco" placeholder="Ex: Rua...,
-Campos dos Goytacazes - RJ">
-<label>Serviço</label>
+<input id="cliente" placeholder="Ex: Maria Silva">
+<label>Endereco da Obra</label>
+<input id="endereco" placeholder="Rua, Campos
+- RJ">
+<label>Servico</label>
 <select id="servico">
-<option>Instalação elétrica residencial
+<option>Instalacao eletrica residencial
 completa</option>
-<option>Instalação de padrão de entrada</
-option>
-<option>Montagem de QDC / Quadro de
-distribuição</option>
-<option>Passagem de cabos / fiação</option>
-<option>Instalação de tomadas e interruptores</
-option>
-<option>Outro serviço</option>
-</select>
-<label>Valor da Mão de Obra (R
-0,00</span><br>
-<span>Valor Final: </span><span class="total"id="vFinal">R
-latex
-6.000,00&lt;/span&gt; &lt;/div&gt;
-&lt;button class="btn-amarelo"
-onclick="gerar()"&gt;GERAR
-ORÇAMENTO&lt;/button&gt; &lt;button
-class="btn-verde"
-onclick="whatsapp()"&gt;ENVIAR PELO
-WHATSAPP&lt;/button&gt; &lt;button
-class="btn-cinza"
-onclick="window.print()"&gt;IMPRIMIR /
-SALVAR PDF&lt;/button&gt; &lt;div
-id="saida" style="margin-top:16px;whitespace:pre-line"&gt;&lt;/div&gt; &lt;/
-div&gt; &lt;script&gt; function calcular(){
-let
-v=parseFloat(document.getElementById(
-'valor').value)||0; let
-d=parseFloat(document.getElementById
-('desconto').value)||0; let desc=v*d/100;
-let final=v-desc;
-document.getElementById('vDesconto').t
-extContent='R'+desc.toLocaleString('pt-BR',
-{minimumFractionDigits:2});
+<option>Padrao de entrada</option>
+<option>Quadro QDC</option>
+<option>Fiacao</option>
+<option>Tomadas e interruptores</option>
+<option>Outro servico</option></select>
+<label>Valor da Mao de Obra (R$)</label>
+<input id="valor" type="number" value="6000">
+<label>Desconto (%)</label>
+<input id="desconto" type="number" value="0">
+<label>Observacoes</label>
+<textarea id="obs">Materiais por conta do
+cliente.</textarea>
+<div class="box">
+Desconto: <span id="vDesconto">R$ 0,00</
+span><br>
+Valor Final: <span class="total" id="vFinal">R$
+6.000,00</span>
+</div>
+<button class="a" onclick="gerar()">GERAR
+ORCAMENTO</button>
+<button class="v" onclick="zap()">ENVIAR PELO
+WHATSAPP</button>
+<button class="c"
+onclick="window.print()">IMPRIMIR / SALVAR
+PDF</button>
+<div id="saida" style="margin-top:14px;whitespace:pre-line"></div>
+</div><script>
+function calc(){
+var
+v=parseFloat(document.getElementById('valor').v
+alue)||0;
+var
+d=parseFloat(document.getElementById('descon
+to').value)||0;
+var desc=v*d/100;
+var fin=v-desc;
+document.getElementById('vDesconto').textCont
+ent='R$ '+desc.toFixed(2);
 document.getElementById('vFinal').textContent='
-R
-latex
-'+final.toLocaleString('pt-BR',
-{minimumFractionDigits:2}); return
-{v,desc,final}; }
-document.getElementById('valor').addEv
-entListener('input',calcular);
-document.getElementById('desconto').ad
-dEventListener('input',calcular); function
-gerar(){ let
-c=document.getElementById('cliente').va
-lue||'Cliente'; let
-e=document.getElementById('endereco').
-value||''; let
-s=document.getElementById('servico').va
-lue; let
-o=document.getElementById('obs').value
-; let r=calcular();document.getElementById('saida').innerT
-ext='ORÇAMENTO - ELETRO
-INTELIGÊNCIA\n\nCliente:
-'+c+'\nEndereço: '+e+'\nServiço:
-'+s+'\n\nValor mão de obra: R
-'+r.v.toLocaleString('pt-BR',
-{minimumFractionDigits:2})+'\nDesconto: R
-latex
-'+r.desc.toLocaleString('pt-BR',
-{minimumFractionDigits:2})+'\nVALOR
-FINAL: R
-'+r.final.toLocaleString('pt-BR',
-{minimumFractionDigits:2})+'\n\nObservações:
-'+o;
+R$ '+fin.toFixed(2);
+return {v:v,desc:desc,fin:fin};
 }
-function whatsapp(){
-gerar();
-lettexto=encodeURIComponent(document.getElem
-entById('saida').innerText);
-window.open('https://wa.me/5522999999999?
-text='+texto,'_blank');
-}
-calcular();
+document.getElementById('valor').addEventListe
+ner('input',calc);
+document.getElementById('desconto').addEventL
+istener('input',calc);
+function gerar(){
+var r=calc();
+var t='ORCAMENTO - ELETRO
+INTELIGENCIA\nCliente:'+document.getElementById('cliente').value+'\nE
+ndereco:
+'+document.getElementById('endereco').value+'\
+nServico:
+'+document.getElementById('servico').value+'\nV
+alor: R$ '+r.v+'\nDesconto: R$ '+r.desc+'\nVALOR
+FINAL: R$ '+r.fin;
+document.getElementById('saida').innerText=t;
+));}
+calc();
 </script>
 </body>
 </html>
+}
+function zap(){gerar();window.open('
