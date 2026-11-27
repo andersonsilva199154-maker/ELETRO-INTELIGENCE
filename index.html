@@ -1,528 +1,241 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eletro Inteligente</title>
-
 <style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: white;
-  padding: 14px;
-  margin: 0;
-}
-
-h1 {
-  color: #facc15;
-  text-align: center;
-}
-
-.card {
-  background: white;
-  color: #111;
-  border-radius: 14px;
-  padding: 18px;
-  max-width: 550px;
-  margin: auto;
-}
-
-h2 {
-  color: #111;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-top: 13px;
-}
-
-input, select {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 9px;
-  margin-top: 5px;
-  font-size: 16px;
-  background: white;
-}
-
-input:read-only {
-  background: #e2e8f0;
-}
-
-button {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 12px;
-  cursor: pointer;
-}
-
-.btn-gerar {
-  background: #facc15;
-  color: #111;
-}
-
-.btn-whatsapp {
-  background: #16a34a;
-  color: white;
-}
-
-.btn-pdf {
-  background: #e2e8f0;
-  color: #111;
-}
-
-.secao {
-  background: #f1f5f9;
-  padding: 13px;
-  border-radius: 10px;
-  margin-top: 16px;
-}
-
-.secao h3 {
-  margin-top: 0;
-  color: #0f172a;
-}
-
-.resultado {
-  background: #fef9c3;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 18px;
-  color: #111;
-}
-
-.total {
-  color: #15803d;
-  font-size: 27px;
-  font-weight: bold;
-}
-
-#saida {
-  background: #f8fafc;
-  color: #111;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 15px;
-  white-space: pre-wrap;
-  line-height: 1.6;
-}
-
-.aviso {
-  font-size: 13px;
-  color: #475569;
-  line-height: 1.5;
-}
-
-@media print {
-  body {
-    background: white;
-    color: black;
-    padding: 0;
-  }
-
-  h1 {
-    color: black;
-  }
-
-  .card {
-    max-width: 100%;
-  }
-
-  label, input, select, button,
-  .resultado, .secao, h2 {
-    display: none !important;
-  }
-
-  #saida {
-    display: block;
-    background: white;
-    border: 1px solid #ddd;
-  }
-}
+*{box-sizing:border-box}
+:root{--navy:#0f172a;--blue:#1e293b;--yellow:#facc15;--green:#15803d;--muted:#64748b}
+body{font-family:Arial,sans-serif;background:var(--navy);color:#fff;margin:0;padding:14px}
+header{max-width:1100px;margin:0 auto 16px}
+h1{color:var(--yellow);text-align:center;margin:8px 0 16px}
+nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+nav button{width:auto;margin:0;background:#334155;color:#fff;padding:11px 14px}
+nav button.active{background:var(--yellow);color:#111}
+main{max-width:1100px;margin:auto}
+.panel{display:none;background:#fff;color:#111;border-radius:14px;padding:18px;margin:0 auto 18px}
+.panel.active{display:block}
+h2{margin:0 0 14px;color:#0f172a}
+h3{color:#0f172a;margin:0 0 10px}
+label{display:block;font-weight:bold;margin-top:12px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:9px;margin-top:5px;font-size:16px;background:#fff;color:#111}
+input:read-only{background:#e2e8f0}
+button{width:100%;padding:13px;border:0;border-radius:10px;font-size:15px;font-weight:bold;margin-top:10px;cursor:pointer;background:#e2e8f0;color:#111}
+button.primary{background:var(--yellow)}
+button.green{background:#16a34a;color:white}
+button.dark{background:#1e293b;color:white}
+button.danger{background:#fee2e2;color:#991b1b}
+button.small{width:auto;padding:8px 11px;margin:3px;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.card{background:#f1f5f9;padding:14px;border-radius:10px;margin-top:12px}
+.metric{font-size:24px;font-weight:bold;color:#15803d}
+.muted,.help{font-size:13px;color:#475569;line-height:1.5}
+.list-item{border:1px solid #cbd5e1;border-radius:10px;padding:12px;margin-top:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.row button{flex:0 0 auto}
+hr{border:0;border-top:1px solid #cbd5e1;margin:16px 0}
+.hidden{display:none!important}
+.tag{display:inline-block;background:#dbeafe;color:#1e40af;padding:4px 8px;border-radius:20px;font-size:12px}
+#saida{white-space:pre-wrap;line-height:1.5;background:#f8fafc;padding:14px;border-radius:9px;margin-top:14px}
+@media print{body{background:#fff;color:#111;padding:0}.no-print,nav,header{display:none!important}.panel{display:none!important}#relatorioPrint{display:block!important}}
 </style>
 </head>
-
 <body>
-
+<header>
 <h1>ELETRO INTELIGENTE</h1>
-
-<div class="card">
-
+<nav class="no-print">
+<button class="active" data-tab="orcamento">Orçamentos</button>
+<button data-tab="projetos">Projetos elétricos</button>
+<button data-tab="salvos">Meus registros</button>
+</nav>
+</header>
+<main>
+<section id="orcamento" class="panel active">
 <h2>Gerador de Orçamentos</h2>
-
-<label>Nome do cliente</label>
-<input id="cliente" type="text" placeholder="Nome do cliente">
-
-<label>Endereço da obra</label>
-<input id="endereco" type="text" placeholder="Endereço completo">
-
-<label>Tipo de serviço</label>
-<select id="servico">
-<option>Instalação residencial completa</option>
-<option>Instalação elétrica industrial</option>
-<option>Manutenção elétrica residencial</option>
-<option>Manutenção elétrica industrial</option>
-<option>Instalação de padrão de entrada</option>
-<option>Montagem de quadro QDC</option>
-<option>Instalação de circuitos</option>
-<option>Instrumentação elétrica</option>
-<option>Outro serviço</option>
-</select>
-
-<div class="secao">
-
+<div class="grid">
+<div><label>Nome do cliente</label><input id="cliente" placeholder="Nome do cliente"></div>
+<div><label>Endereço da obra</label><input id="endereco" placeholder="Endereço completo"></div>
+<div><label>Tipo de serviço</label><select id="servico">
+<option>Instalação residencial completa</option><option>Instalação elétrica industrial</option>
+<option>Manutenção elétrica residencial</option><option>Manutenção elétrica industrial</option>
+<option>Instalação de padrão de entrada</option><option>Montagem de quadro QDC</option>
+<option>Instalação de circuitos</option><option>Instrumentação elétrica</option><option>Outro serviço</option>
+</select></div>
+</div>
+<div class="card">
 <h3>1. Configuração da mão de obra</h3>
-
-<label>Modo de cálculo</label>
-<select id="modo">
-<option value="automatico">Automático</option>
-<option value="manual">Manual</option>
-</select>
-
-<label>Valor da hora por profissional (R$)</label>
-<input id="valorHora" type="text" inputmode="decimal" value="0">
-
-<label>Quantidade de profissionais</label>
-<input id="profissionais" type="number" min="1" step="1" value="1">
-
-<label>Quantidade de serviços/equipamentos</label>
-<input id="quantidade" type="number" min="1" step="1" value="1">
-
-<label>Horas estimadas por serviço</label>
-<input id="horas" type="text" inputmode="decimal" value="0">
-
-<label>Valor da mão de obra (R$)</label>
-<input id="valor" type="text" inputmode="decimal" value="0">
-
-<p class="aviso" id="explicacao">
-O cálculo automático considera profissionais,
-quantidade de serviços, horas estimadas e valor
-da hora por profissional.
-</p>
-
+<div class="grid">
+<div><label>Modo de cálculo</label><select id="modo"><option value="automatico">Automático</option><option value="manual">Manual</option></select></div>
+<div><label>Valor da hora por profissional (R$)</label><input id="valorHora" inputmode="decimal" value="0"></div>
+<div><label>Quantidade de profissionais</label><input id="profissionais" type="number" min="1" step="1" value="1"></div>
+<div><label>Quantidade de serviços/equipamentos</label><input id="quantidade" type="number" min="1" step="1" value="1"></div>
+<div><label>Horas por profissional e por serviço</label><input id="horas" inputmode="decimal" value="0"></div>
+<div><label>Valor da mão de obra (R$)</label><input id="valor" inputmode="decimal" value="0"></div>
 </div>
-
-<div class="secao">
-
+<p class="help" id="explicacao">O cálculo automático considera horas por profissional. Exemplo: 8 horas para cada profissional em um dia.</p>
+</div>
+<div class="card">
 <h3>2. Materiais e descontos</h3>
-
-<label>Valor dos materiais (R$)</label>
-<input id="materiais" type="text" inputmode="decimal" value="0">
-
-<label>Desconto (%)</label>
-<input id="desconto" type="number" min="0" max="100" step="0.01" value="0">
-
+<div class="grid">
+<div><label>Valor dos materiais (R$)</label><input id="materiais" inputmode="decimal" value="0"></div>
+<div><label>Desconto (%)</label><input id="desconto" type="number" min="0" max="100" step="0.01" value="0"></div>
 </div>
-
-<div class="resultado">
-
-<p>Mão de obra:
-<strong id="vMao">R$ 0,00</strong></p>
-
-<p>Materiais:
-<strong id="vMateriais">R$ 0,00</strong></p>
-
-<p>Subtotal:
-<strong id="subtotal">R$ 0,00</strong></p>
-
-<p>Desconto:
-<strong id="vDesconto">R$ 0,00</strong></p>
-
-<hr>
-
-<p>VALOR FINAL:</p>
-
-<div class="total" id="vFinal">R$ 0,00</div>
-
 </div>
-
-<label>WhatsApp do cliente com DDD</label>
-<input id="telefone" type="tel" placeholder="Ex.: 22999999999">
-
-<button class="btn-gerar" onclick="gerar()">
-GERAR ORÇAMENTO
-</button>
-
-<button class="btn-whatsapp" onclick="zap()">
-ENVIAR PELO WHATSAPP
-</button>
-
-<button class="btn-pdf" onclick="imprimir()">
-IMPRIMIR / SALVAR PDF
-</button>
-
+<div class="card">
+<h3>Resumo</h3>
+<p>Mão de obra: <strong id="vMao">R$ 0,00</strong></p>
+<p>Materiais: <strong id="vMateriais">R$ 0,00</strong></p>
+<p>Subtotal: <strong id="subtotal">R$ 0,00</strong></p>
+<p>Desconto: <strong id="vDesconto">R$ 0,00</strong></p>
+<hr><p>VALOR FINAL</p><div class="metric" id="vFinal">R$ 0,00</div>
+</div>
+<div class="grid no-print">
+<div><label>WhatsApp do cliente com DDD</label><input id="telefone" type="tel" placeholder="Ex.: 22999999999"></div>
+<div><label>Identificação do orçamento (opcional)</label><input id="tituloOrcamento" placeholder="Ex.: Reforma elétrica - casa"></div>
+</div>
+<div class="no-print">
+<button class="primary" onclick="gerar()">GERAR ORÇAMENTO</button>
+<button class="green" onclick="salvarOrcamento()">SALVAR ORÇAMENTO</button>
+<button class="green" onclick="zap()">ENVIAR PELO WHATSAPP</button>
+<button onclick="imprimirOrcamento()">IMPRIMIR / SALVAR PDF</button>
+</div>
 <div id="saida"></div>
+</section>
 
+<section id="projetos" class="panel">
+<h2>Projeto Elétrico Inteligente</h2>
+<p class="help">Cadastre os dados da residência e seus ambientes. Nesta primeira entrega, o sistema organiza o levantamento e calcula áreas/perímetros. O dimensionamento normativo de circuitos, condutores e proteções será desenvolvido e validado em uma etapa posterior.</p>
+<div class="card">
+<h3>1. Identificação do projeto</h3>
+<div class="grid">
+<div><label>Nome do projeto / cliente</label><input id="projNome" placeholder="Ex.: Residência Silva"></div>
+<div><label>Endereço</label><input id="projEndereco" placeholder="Endereço da obra"></div>
+<div><label>Tipo de instalação</label><select id="projTipo"><option>Residencial</option><option>Comercial</option></select></div>
+<div><label>Tensão disponível (V)</label><select id="projTensao"><option value="">A definir</option><option>127/220</option><option>220</option><option>220/380</option><option>Outro / confirmar</option></select></div>
 </div>
+<label>Importar planta baixa (PDF ou imagem)</label>
+<input id="planta" type="file" accept=".pdf,image/*">
+<p class="help" id="arquivoInfo">Selecione uma planta para referência. Nesta versão, o nome do arquivo fica registrado; a interpretação automática e o armazenamento do arquivo na nuvem serão implementados depois.</p>
+</div>
+<div class="card">
+<h3>2. Adicionar ambientes</h3>
+<div class="grid">
+<div><label>Nome do ambiente</label><select id="ambienteTipo">
+<option>Sala</option><option>Cozinha</option><option>Quarto</option><option>Suíte</option><option>Banheiro</option><option>Área de serviço</option><option>Varanda</option><option>Corredor</option><option>Garagem</option><option>Outro</option>
+</select></div>
+<div><label>Nome personalizado (se Outro)</label><input id="ambienteNome" placeholder="Nome do ambiente"></div>
+<div><label>Comprimento (m)</label><input id="comprimento" type="number" min="0" step="0.01" placeholder="Ex.: 4"></div>
+<div><label>Largura (m)</label><input id="largura" type="number" min="0" step="0.01" placeholder="Ex.: 3"></div>
+<div><label>Equipamentos / observações</label><input id="equipamentos" placeholder="Ex.: chuveiro 5500 W, ar-condicionado"></div>
+</div>
+<button class="primary" onclick="adicionarAmbiente()">ADICIONAR AMBIENTE</button>
+<div id="listaAmbientes"></div>
+</div>
+<div class="card">
+<h3>3. Resumo do levantamento</h3>
+<div class="grid">
+<div><p class="muted">Quantidade de ambientes</p><div class="metric" id="totalAmbientes">0</div></div>
+<div><p class="muted">Área total cadastrada</p><div class="metric" id="areaTotal">0,00 m²</div></div>
+<div><p class="muted">Perímetro somado</p><div class="metric" id="perimetroTotal">0,00 m</div></div>
+</div>
+<button class="green" onclick="salvarProjeto()">SALVAR PROJETO</button>
+<button onclick="relatorioProjeto()">GERAR RELATÓRIO DO LEVANTAMENTO</button>
+<div id="relatorioProjeto" class="help"></div>
+</div>
+</section>
 
+<section id="salvos" class="panel">
+<h2>Meus registros</h2>
+<p class="help">Os registros desta primeira versão ficam salvos neste navegador e neste aparelho. Limpar os dados do navegador pode apagá-los. Faça cópias/exports dos documentos importantes; a sincronização em nuvem será adicionada posteriormente.</p>
+<div class="card"><h3>Orçamentos salvos</h3><div id="listaOrcamentos"></div></div>
+<div class="card"><h3>Projetos salvos</h3><div id="listaProjetos"></div></div>
+</section>
+<section id="relatorioPrint" class="panel"></section>
+</main>
 <script>
-
-const dinheiro = new Intl.NumberFormat('pt-BR', {
-  style: 'currency',
-  currency: 'BRL'
-});
-
-function numeroBR(valor) {
-  let texto = String(valor ?? '0')
-    .trim()
-    .replace(/[R$\s]/g, '');
-
-  if (!texto) return 0;
-
-  if (texto.includes(',')) {
-    texto = texto.replace(/\./g, '');
-    texto = texto.replace(',', '.');
-  } else if (/^\d{1,3}(\.\d{3})+$/.test(texto)) {
-    texto = texto.replace(/\./g, '');
-  }
-
-  const numero = Number(texto);
-
-  return Number.isFinite(numero)
-    ? Math.max(0, numero)
-    : 0;
+const dinheiro=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+const ler=id=>document.getElementById(id);
+const numeroBR=v=>{let t=String(v??'0').trim().replace(/[R$\\s]/g,'');if(!t)return 0;if(t.includes(',')){t=t.replace(/\\./g,'').replace(',','.')}else if(/^\\d{1,3}(\\.\\d{3})+$/.test(t)){t=t.replace(/\\./g,'')}const n=Number(t);return Number.isFinite(n)?Math.max(0,n):0};
+const lerLista=(k)=>{try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return []}};
+const gravarLista=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let ambientes=[];
+let arquivoPlantaNome='';
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');ler(b.dataset.tab).classList.add('active');if(b.dataset.tab==='salvos')renderSalvos()}));
+function calcular(){
+ const modo=ler('modo').value, vh=numeroBR(ler('valorHora').value);
+ const prof=Math.max(1,Math.floor(Number(ler('profissionais').value)||1));
+ const qtd=Math.max(1,Math.floor(Number(ler('quantidade').value)||1));
+ const horas=numeroBR(ler('horas').value);
+ let mao;
+ if(modo==='automatico'){mao=prof*qtd*horas*vh;ler('valor').value=mao.toFixed(2).replace('.',',')}
+ else mao=numeroBR(ler('valor').value);
+ const mat=numeroBR(ler('materiais').value), pct=Math.min(100,Math.max(0,Number(ler('desconto').value)||0));
+ const subtotal=mao+mat, desconto=subtotal*pct/100,total=subtotal-desconto;
+ ler('vMao').textContent=dinheiro.format(mao);ler('vMateriais').textContent=dinheiro.format(mat);ler('subtotal').textContent=dinheiro.format(subtotal);ler('vDesconto').textContent=dinheiro.format(desconto);ler('vFinal').textContent=dinheiro.format(total);
+ return {mao,materiais:mat,subtotal,desconto,descontoPercentual:pct,total,valorHora:vh,profissionais:prof,quantidade:qtd,horas,totalHoras:horas*qtd,modo};
 }
-
-function atualizarModo() {
-  const automatico =
-    document.getElementById('modo').value === 'automatico';
-
-  document.getElementById('valor').readOnly = automatico;
-
-  document.getElementById('explicacao').textContent =
-    automatico
-    ? 'A mão de obra é calculada automaticamente. Para alterar diretamente o preço, selecione o modo manual.'
-    : 'Informe manualmente o valor da mão de obra. Você pode voltar ao modo automático quando desejar.';
-
-  calcular();
+function atualizarModo(){const auto=ler('modo').value==='automatico';ler('valor').readOnly=auto;ler('explicacao').textContent=auto?'As horas informadas são por profissional. Exemplo: 8 horas para cada profissional em um dia.':'Informe manualmente o valor total da mão de obra.';calcular()}
+['modo','valorHora','profissionais','quantidade','horas','valor','materiais','desconto'].forEach(id=>['input','change'].forEach(ev=>ler(id).addEventListener(ev,()=>id==='modo'?atualizarModo():calcular())));
+function dadosOrcamento(){
+ const v=calcular();
+ return {id:Date.now(),data:new Date().toLocaleString('pt-BR'),titulo:ler('tituloOrcamento').value.trim()||'Orçamento - '+(ler('cliente').value.trim()||'Cliente não informado'),cliente:ler('cliente').value.trim(),endereco:ler('endereco').value.trim(),servico:ler('servico').value,telefone:ler('telefone').value, ...v};
 }
-
-function calcular() {
-
-  const modo = document.getElementById('modo').value;
-
-  const valorHora = numeroBR(
-    document.getElementById('valorHora').value
-  );
-
-  const profissionais = Math.max(1,
-    Math.floor(Number(
-      document.getElementById('profissionais').value
-    ) || 1)
-  );
-
-  const quantidade = Math.max(1,
-    Math.floor(Number(
-      document.getElementById('quantidade').value
-    ) || 1)
-  );
-
-  const horas = numeroBR(
-    document.getElementById('horas').value
-  );
-
-  const totalHoras = horas * quantidade;
-
-  let mao;
-
-  if (modo === 'automatico') {
-
-    mao = profissionais * totalHoras * valorHora;
-
-    document.getElementById('valor').value =
-      mao.toFixed(2).replace('.', ',');
-
-  } else {
-
-    mao = numeroBR(
-      document.getElementById('valor').value
-    );
-
-  }
-
-  const materiais = numeroBR(
-    document.getElementById('materiais').value
-  );
-
-  const descontoPercentual = Math.min(
-    100,
-    Math.max(0,
-      Number(document.getElementById('desconto').value) || 0
-    )
-  );
-
-  const subtotal = mao + materiais;
-
-  const desconto = subtotal * descontoPercentual / 100;
-
-  const total = subtotal - desconto;
-
-  document.getElementById('vMao').textContent =
-    dinheiro.format(mao);
-
-  document.getElementById('vMateriais').textContent =
-    dinheiro.format(materiais);
-
-  document.getElementById('subtotal').textContent =
-    dinheiro.format(subtotal);
-
-  document.getElementById('vDesconto').textContent =
-    dinheiro.format(desconto);
-
-  document.getElementById('vFinal').textContent =
-    dinheiro.format(total);
-
-  return {
-    mao,
-    materiais,
-    subtotal,
-    desconto,
-    descontoPercentual,
-    total,
-    valorHora,
-    profissionais,
-    quantidade,
-    horas,
-    totalHoras,
-    modo
-  };
+function textoOrcamento(o){
+ return `ELETRO INTELIGENTE\\nORÇAMENTO DE SERVIÇOS ELÉTRICOS\\n\\nCliente: ${o.cliente||'Não informado'}\\nEndereço: ${o.endereco||'Não informado'}\\nServiço: ${o.servico}\\n\\nModo: ${o.modo==='automatico'?'Automático':'Manual'}\\nProfissionais: ${o.profissionais}\\nQuantidade de serviços: ${o.quantidade}\\nHoras por profissional/serviço: ${o.horas}\\nValor hora: ${dinheiro.format(o.valorHora)}\\n\\nMão de obra: ${dinheiro.format(o.mao)}\\nMateriais: ${dinheiro.format(o.materiais)}\\nSubtotal: ${dinheiro.format(o.subtotal)}\\nDesconto: ${o.descontoPercentual}% (${dinheiro.format(o.desconto)})\\n\\nVALOR FINAL: ${dinheiro.format(o.total)}\\n\\nAgradecemos a preferência!\\nELETRO INTELIGENTE`;
 }
-
-[
-  'modo',
-  'valorHora',
-  'profissionais',
-  'quantidade',
-  'horas',
-  'valor',
-  'materiais',
-  'desconto'
-].forEach(id => {
-
-  document.getElementById(id).addEventListener(
-    'input',
-    () => {
-      if (id === 'modo') {
-        atualizarModo();
-      } else {
-        calcular();
-      }
-    }
-  );
-
-  document.getElementById(id).addEventListener(
-    'change',
-    () => {
-      if (id === 'modo') atualizarModo();
-      else calcular();
-    }
-  );
-
-});
-
-function gerar() {
-
-  const valores = calcular();
-
-  const cliente =
-    document.getElementById('cliente').value.trim()
-    || 'Não informado';
-
-  const endereco =
-    document.getElementById('endereco').value.trim()
-    || 'Não informado';
-
-  const servico =
-    document.getElementById('servico').value;
-
-  const descricaoCalculo =
-    valores.modo === 'automatico'
-    ? `Cálculo automático:
-Profissionais: ${valores.profissionais}
-Quantidade de serviços: ${valores.quantidade}
-Horas por serviço: ${valores.horas}
-Total de horas por profissional: ${valores.totalHoras}
-Valor da hora: ${dinheiro.format(valores.valorHora)}`
-    : 'Cálculo da mão de obra: valor informado manualmente.';
-
-  const texto = `ELETRO INTELIGENTE
-ORÇAMENTO DE SERVIÇOS ELÉTRICOS
-
-Cliente: ${cliente}
-Endereço: ${endereco}
-Serviço: ${servico}
-
-${descricaoCalculo}
-
-Mão de obra: ${dinheiro.format(valores.mao)}
-Materiais: ${dinheiro.format(valores.materiais)}
-
-Subtotal: ${dinheiro.format(valores.subtotal)}
-Desconto: ${valores.descontoPercentual}%
-Valor do desconto: ${dinheiro.format(valores.desconto)}
-
-VALOR FINAL: ${dinheiro.format(valores.total)}
-
-Agradecemos a preferência!
-
-ELETRO INTELIGENTE`;
-
-  document.getElementById('saida').textContent = texto;
-
-  return texto;
+function gerar(){const o=dadosOrcamento();ler('saida').textContent=textoOrcamento(o);return textoOrcamento(o)}
+function salvarOrcamento(){
+ try{const o=dadosOrcamento(),lista=lerLista('ei_orcamentos');lista.unshift(o);gravarLista('ei_orcamentos',lista);ler('saida').textContent='Orçamento salvo neste navegador!\\n\\n'+textoOrcamento(o);alert('Orçamento salvo com sucesso neste navegador.')}catch(e){alert('Não foi possível salvar. O armazenamento do navegador pode estar cheio.')}
 }
-
-function zap() {
-
-  const telefone =
-    document.getElementById('telefone')
-    .value.replace(/\D/g, '');
-
-  if (!telefone) {
-    alert('Informe o WhatsApp do cliente com DDD.');
-    return;
-  }
-
-  let numero = telefone;
-
-  if (numero.length === 10 || numero.length === 11) {
-    numero = '55' + numero;
-  }
-
-  if (numero.length !== 12 && numero.length !== 13) {
-    alert('Número inválido. Confira o DDD e o telefone.');
-    return;
-  }
-
-  const texto = gerar();
-
-  const link =
-    'https://wa.me/' + numero +
-    '?text=' + encodeURIComponent(texto);
-
-  window.open(link, '_blank');
+function zap(){const tel=ler('telefone').value.replace(/\\D/g,'');if(!tel){alert('Informe o WhatsApp do cliente com DDD.');return}let n=tel;if(n.length===10||n.length===11)n='55'+n;if(n.length!==12&&n.length!==13){alert('Número inválido. Confira DDD e telefone.');return}window.open('https://wa.me/'+n+'?text='+encodeURIComponent(gerar()),'_blank')}
+function imprimirOrcamento(){gerar();window.print()}
+function adicionarAmbiente(){
+ const c=Number(ler('comprimento').value),l=Number(ler('largura').value);
+ if(!(c>0&&l>0)){alert('Informe comprimento e largura maiores que zero.');return}
+ const tipo=ler('ambienteTipo').value,nome=tipo==='Outro'?(ler('ambienteNome').value.trim()||'Outro ambiente'):tipo;
+ ambientes.push({nome,comprimento:c,largura:l,area:c*l,perimetro:2*(c+l),equipamentos:ler('equipamentos').value.trim()});
+ ['comprimento','largura','ambienteNome','equipamentos'].forEach(id=>ler(id).value='');
+ renderAmbientes();
 }
-
-function imprimir() {
-  gerar();
-  window.print();
+function renderAmbientes(){
+ ler('listaAmbientes').innerHTML=ambientes.length?ambientes.map((a,i)=>`<div class="list-item"><div class="row"><strong>${escapeHTML(a.nome)}</strong><button class="small danger" onclick="removerAmbiente(${i})">Remover</button></div><div>${a.comprimento} m × ${a.largura} m · Área: ${a.area.toFixed(2)} m² · Perímetro: ${a.perimetro.toFixed(2)} m</div><div class="muted">Equipamentos: ${escapeHTML(a.equipamentos||'Não informados')}</div></div>`).join(''):'<p class="muted">Nenhum ambiente adicionado.</p>';
+ const area=ambientes.reduce((s,a)=>s+a.area,0),per=ambientes.reduce((s,a)=>s+a.perimetro,0);
+ ler('totalAmbientes').textContent=ambientes.length;ler('areaTotal').textContent=area.toFixed(2).replace('.',',')+' m²';ler('perimetroTotal').textContent=per.toFixed(2).replace('.',',')+' m';
 }
-
-atualizarModo();
-
+function removerAmbiente(i){ambientes.splice(i,1);renderAmbientes()}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+ler('planta').addEventListener('change',e=>{const f=e.target.files[0];arquivoPlantaNome=f?f.name:'';ler('arquivoInfo').textContent=f?'Planta selecionada: '+f.name+'. Nesta versão, o arquivo original não é armazenado permanentemente.':'Selecione uma planta para referência.'});
+function dadosProjeto(){return {id:Date.now(),data:new Date().toLocaleString('pt-BR'),nome:ler('projNome').value.trim()||'Projeto sem nome',endereco:ler('projEndereco').value.trim(),tipo:ler('projTipo').value,tensao:ler('projTensao').value,planta:arquivoPlantaNome,ambientes:JSON.parse(JSON.stringify(ambientes)),areaTotal:ambientes.reduce((s,a)=>s+a.area,0),perimetroTotal:ambientes.reduce((s,a)=>s+a.perimetro,0)}}
+function salvarProjeto(){
+ if(!ambientes.length){alert('Adicione pelo menos um ambiente antes de salvar.');return}
+ try{const p=dadosProjeto(),lista=lerLista('ei_projetos');lista.unshift(p);gravarLista('ei_projetos',lista);alert('Projeto salvo neste navegador.')}catch(e){alert('Não foi possível salvar o projeto.')}
+}
+function relatorioProjeto(){
+ const p=dadosProjeto();
+ if(!p.ambientes.length){alert('Adicione ambientes para gerar o relatório.');return}
+ const linhas=p.ambientes.map(a=>`${a.nome}: ${a.comprimento} m × ${a.largura} m | ${a.area.toFixed(2)} m² | perímetro ${a.perimetro.toFixed(2)} m | Equipamentos: ${a.equipamentos||'não informados'}`).join('\\n');
+ const texto=`ELETRO INTELIGENTE\\nRELATÓRIO DE LEVANTAMENTO PRELIMINAR\\n\\nProjeto: ${p.nome}\\nEndereço: ${p.endereco||'Não informado'}\\nTipo: ${p.tipo}\\nTensão informada: ${p.tensao||'A definir'}\\nPlanta: ${p.planta||'Não anexada'}\\n\\nAMBIENTES\\n${linhas}\\n\\nTotal de ambientes: ${p.ambientes.length}\\nÁrea cadastrada: ${p.areaTotal.toFixed(2)} m²\\nPerímetro somado: ${p.perimetroTotal.toFixed(2)} m\\n\\nATENÇÃO: Este documento registra dados preliminares. Não é projeto executivo nem memória de cálculo conforme NBR 5410. O dimensionamento depende de dados adicionais, verificações normativas e conferência de profissional habilitado.`;
+ ler('relatorioProjeto').textContent=texto;
+ const win=window.open('','_blank');if(!win){alert('Permita pop-ups para gerar o relatório.');return}
+ win.document.write('<html><head><title>Relatório - Eletro Inteligente</title><meta charset="UTF-8"><style>body{font-family:Arial;padding:28px;white-space:pre-wrap;line-height:1.5}</style></head><body>'+escapeHTML(texto)+'</body></html>');win.document.close();win.focus();setTimeout(()=>win.print(),300);
+}
+function renderSalvos(){
+ const os=lerLista('ei_orcamentos'),ps=lerLista('ei_projetos');
+ ler('listaOrcamentos').innerHTML=os.length?os.map(o=>`<div class="list-item"><strong>${escapeHTML(o.titulo)}</strong><div class="muted">${escapeHTML(o.data)} · ${escapeHTML(o.cliente||'Cliente não informado')}</div><div><strong>${dinheiro.format(o.total)}</strong></div><button class="small" onclick="abrirOrcamento(${o.id})">Abrir</button><button class="small danger" onclick="excluirRegistro('ei_orcamentos',${o.id})">Excluir</button></div>`).join(''):'<p class="muted">Nenhum orçamento salvo.</p>';
+ ler('listaProjetos').innerHTML=ps.length?ps.map(p=>`<div class="list-item"><strong>${escapeHTML(p.nome)}</strong><div class="muted">${escapeHTML(p.data)} · ${p.ambientes.length} ambiente(s) · ${p.areaTotal.toFixed(2)} m²</div><button class="small" onclick="abrirProjeto(${p.id})">Abrir</button><button class="small danger" onclick="excluirRegistro('ei_projetos',${p.id})">Excluir</button></div>`).join(''):'<p class="muted">Nenhum projeto salvo.</p>';
+}
+function abrirOrcamento(id){
+ const o=lerLista('ei_orcamentos').find(x=>x.id===id);if(!o)return;
+ ler('cliente').value=o.cliente||'';ler('endereco').value=o.endereco||'';ler('servico').value=o.servico;ler('modo').value=o.modo;ler('valorHora').value=String(o.valorHora).replace('.',',');ler('profissionais').value=o.profissionais;ler('quantidade').value=o.quantidade;ler('horas').value=String(o.horas).replace('.',',');ler('valor').value=String(o.mao).replace('.',',');ler('materiais').value=String(o.materiais).replace('.',',');ler('desconto').value=o.descontoPercentual;ler('tituloOrcamento').value=o.titulo;atualizarModo();gerar();document.querySelector('[data-tab="orcamento"]').click();
+}
+function abrirProjeto(id){
+ const p=lerLista('ei_projetos').find(x=>x.id===id);if(!p)return;
+ ler('projNome').value=p.nome;ler('projEndereco').value=p.endereco;ler('projTipo').value=p.tipo;ler('projTensao').value=p.tensao||'';ambientes=JSON.parse(JSON.stringify(p.ambientes));arquivoPlantaNome=p.planta||'';renderAmbientes();document.querySelector('[data-tab="projetos"]').click();
+}
+function excluirRegistro(k,id){if(!confirm('Deseja excluir este registro?'))return;gravarLista(k,lerLista(k).filter(x=>x.id!==id));renderSalvos()}
+atualizarModo();renderAmbientes();
 </script>
-
 </body>
 </html>
+
