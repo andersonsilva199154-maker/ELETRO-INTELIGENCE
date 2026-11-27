@@ -5,174 +5,270 @@
 <meta name="viewport" content="width=devicewidth, initial-scale=1.0">
 <title>Eletro Inteligente</title>
 <style>
-body {
-font-family: Arial;
-background: #0f172a;
-color: #fff;
-padding: 14px;
-margin: 0;
+{
+box-sizing: border-box;
 }
-.card {
-background: #fff;
-color: #111;border-radius: 14px;
-padding: 16px;
-max-width: 520px;
-margin: auto;
+body {
+font-family: Arial, sans-serif;
+background: #0f172a;
+color: white;
+padding: 14px;margin: 0;
 }
 h1 {
 color: #facc15;
 text-align: center;
 }
+.card {
+background: white;
+color: #111;
+border-radius: 14px;
+padding: 18px;
+max-width: 550px;
+margin: auto;
+}
 label {
-font-weight: bold;
 display: block;
-margin-top: 10px;
+font-weight: bold;margin-top: 13px;
 }
 input, select {
 width: 100%;
-padding: 11px;
-border-radius: 10px;
+padding: 12px;
 border: 1px solid #ccc;
-margin-top: 4px;box-sizing: border-box;
+border-radius: 9px;
+margin-top: 5px;
 font-size: 16px;
+background: white;
 }
 button {
 width: 100%;
-padding: 13px;
+padding: 14px;
 border: none;
-border-radius: 11px;
+border-radius: 10px;
 font-size: 16px;
-font-weight: bold;
-margin-top: 10px;
+font-weight: bold;margin-top: 12px;
 cursor: pointer;
 }
-.a { background: #facc15; }
-.v { background: #22c55e; color: #fff; }
-.c { background: #e2e8f0; }
-.box {
-background: #fef9c3;
-padding: 12px;
-border-radius: 10px;margin-top: 12px;
+.btn-gerar {
+background: #facc15;
+color: #111;
+}
+.btn-whatsapp {
+background: #16a34a;
+color: white;
+}
+.btn-pdf {
+background: #e2e8f0;
+color: #111;
+}
+.resultado {background: #fef9c3;
+padding: 15px;
+border-radius: 10px;
+margin-top: 18px;
 }
 .total {
-font-size: 24px;
+color: #15803d;
+font-size: 27px;
 font-weight: bold;
-color: #16a34a;
 }
+#saida {
+background: #f8fafc;
+color: #111;
+padding: 15px;
+border-radius: 10px;
+margin-top: 15px;
+white-space: pre-wrap;
+line-height: 1.6;}
+@media print {
+body {
+background: white;
+color: black;
+padding: 0;
+}
+h1 {
+color: black;
+}
+.card {
+max-width: 100%;
+}
+input, select, button, .resultado {
+display: none !important;
+}#saida {
+display: block;
+background: white;
+border: 1px solid #ddd;
+} }
 </style>
 </head>
 <body>
 <h1>ELETRO INTELIGENTE</h1>
 <div class="card">
-<label>Nome do Cliente</label>
-<input id="cliente" placeholder="Nome do
-cliente">
-<label>Endereço</label><input id="endereco" placeholder="Endereço da
-obra">
-<label>Serviço</label>
+<h2>Gerador de Orçamentos</h2>
+<label>Nome do cliente</label>
+<input id="cliente" type="text"placeholder="Nome do cliente">
+<label>Endereço da obra</label>
+<input id="endereco" type="text"
+placeholder="Endereço completo">
+<label>Tipo de serviço</label>
 <select id="servico">
 <option>Instalação residencial completa</
 option>
-<option>Padrão de entrada</option>
-<option>Quadro QDC</option>
-<option>Manutenção elétrica</option>
-<option>Instalação industrial</option>
-<option>Outro</option>
-</select>
-<label>Valor da Mão de Obra (R$`)</label>
-<input id="valor" type="number" min="0"
-step="0.01"
-value="6000">
-<label>Desconto (%)</label><input id="desconto" type="number" min="0"
-max="100"
-step="0.01" value="0">
-<div class="box">
-Desconto: <span id="vDesconto">R$ 0,00&lt;/
-span&gt; &lt;br&gt;&lt;br&gt; Valor Final: &lt;div
-class="total" id="vFinal"&gt;R$ 6.000,00</div>
+<option>Instalação elétrica industrial</option>
+<option>Manutenção elétrica residencial</
+option>
+<option>Manutenção elétrica industrial</option>
+<option>Instalação de padrão de entrada</
+option>
+<option>Montagem de quadro QDC</option>
+<option>Instalação de circuitos</option>
+<option>Instrumentação elétrica</option>
+<option>Outro serviço</option></select>
+<label>Valor da mão de obra (R$`)</label>
+<input id="valor" type="text"
+inputmode="decimal" value="6000">
+<label>Valor dos materiais (R`$)</label>
+<input id="materiais" type="text"
+inputmode="decimal" value="0">
+<label>Desconto (%)</label>
+<input id="desconto" type="number"
+min="0" max="100" step="0.01" value="0">
+<div class="resultado">
+<p>Mão de obra:
+<strong id="vMao">R$` 6.000,00</strong></p>
+<p>Materiais:<strong id="vMateriais">R`$ 0,00</strong></p>
+<p>Subtotal:
+<strong id="subtotal">R$` 6.000,00</strong></p>
+<p>Desconto:
+<strong id="vDesconto">R`$ 0,00</strong></p>
+<hr>
+<p>VALOR FINAL:</p>
+<div class="total" id="vFinal">
+R$` 6.000,00
 </div>
-<label>WhatsApp do Cliente (com DDD)</label>
-<input id="telefone" type="tel"
-placeholder="Ex.: 22999999999">
-<button class="a" onclick="gerar()">
+</div>
+<label>WhatsApp do cliente com DDD</label>
+<input id="telefone" type="tel"placeholder="Ex.: 22999999999">
+<button class="btn-gerar" onclick="gerar()">
 GERAR ORÇAMENTO
 </button>
-<button class="v" onclick="zap()">
-ENVIAR PELO WHATSAPP</button>
-<button class="c" onclick="window.print()">
+<button class="btn-whatsapp" onclick="zap()">
+ENVIAR PELO WHATSAPP
+</button>
+<button class="btn-pdf" onclick="imprimir()">
 IMPRIMIR / SALVAR PDF
 </button>
-<div id="saida"
-style="margin-top:14px;white-space:pre-line"></
-div>
+<div id="saida"></div>
 </div>
-<script>
-const dinheiro = new Intl.NumberFormat('pt-BR', {
+<script>const dinheiro = new Intl.NumberFormat('pt-BR', {
 style: 'currency',
 currency: 'BRL'
 });
-function atualizar() {
-const v = Math.max(0,Number(document.getElementById('valor').value)
-|| 0);
-const d = Math.min(100, Math.max(0,
-Number(document.getElementById('desconto').v
-alue) || 0));
-const desc = v * d / 100;
-const fin = v - desc;
-document.getElementById('vDesconto').textCont
-ent = dinheiro.format(desc);
-document.getElementById('vFinal').textContent
-= dinheiro.format(fin);
-return {v, d, desc, fin};
+function numeroBR(valor) {
+let texto = String(valor || '0').trim();
+texto = texto.replace(/\s/g, '');
+if (texto.includes(',')) {
+texto = texto.replace(/./g, '').replace(',', '.');
 }
-document.getElementById('valor').addEventListe
-ner('input', atualizar);
-document.getElementById('desconto').addEventListener('input', atualizar);
+const numero = Number(texto);
+return Number.isFinite(numero) ? Math.max(0,
+numero) : 0;
+}
+function calcular() {const mao = numeroBR(
+document.getElementById('valor').value
+);
+const materiais = numeroBR(
+document.getElementById('materiais').value
+);
+const descontoPercentual = Math.min(
+100,
+Math.max(0, Number(
+document.getElementById('desconto').value
+) || 0)
+);
+const subtotal = mao + materiais;
+const desconto = subtotal * descontoPercentual
+/ 100;
+const total = subtotal - desconto;document.getElementById('vMao').textContent =
+dinheiro.format(mao);
+document.getElementById('vMateriais').textCont
+ent =
+dinheiro.format(materiais);
+document.getElementById('subtotal').textContent
+=
+dinheiro.format(subtotal);
+document.getElementById('vDesconto').textCont
+ent =
+dinheiro.format(desconto);
+document.getElementById('vFinal').textContent =
+dinheiro.format(total);
+return {
+mao,materiais,
+subtotal,
+desconto,
+descontoPercentual,
+total
+};
+}
+document.getElementById('valor')
+.addEventListener('input', calcular);
+document.getElementById('materiais')
+.addEventListener('input', calcular);
+document.getElementById('desconto')
+.addEventListener('input', calcular);
 function gerar() {
-const valores = atualizar();
-const cliente =
-document.getElementById('cliente').value || 'Não
-informado';
+const valores = calcular();const cliente =
+document.getElementById('cliente').value.trim()
+|| 'Não informado';
 const endereco =
-document.getElementById('endereco').value ||
-'Não informado';
+document.getElementById('endereco').value.trim(
+)
+|| 'Não informado';
 const servico =
 document.getElementById('servico').value;
 const texto =
-`ORÇAMENTO - ELETRO INTELIGENTE
-Cliente: ${cliente} Endereço: ${endereco}
-Serviço: `${servico}Mão de obra:
-{valores.d}%
+`ELETRO INTELIGENTE
+ORÇAMENTO DE SERVIÇOS ELÉTRICOS
+Cliente: `${cliente}
+Endereço: $`{endereco}Serviço: `${servico}
+Mão de obra: $`{dinheiro.format(valores.mao)}
+Materiais: `${dinheiro.format(valores.materiais)}
+Subtotal: $`{dinheiro.format(valores.subtotal)}
+Desconto: `${valores.descontoPercentual}%
 Valor do desconto:
-$`{dinheiro.format(valores.desc)}
-VALOR FINAL: `${dinheiro.format(valores.fin)}
-Agradecemos a preferência!`;
-document.getElementById('saida').innerText =
+$`{dinheiro.format(valores.desconto)}
+VALOR FINAL: `${dinheiro.format(valores.total)}
+Agradecemos a preferência!
+ELETRO INTELIGENTE`;document.getElementById('saida').textContent =
 texto;
 return texto;
 }
 function zap() {
 const telefone =
-document.getElementById('telefone').value.repla
-ce(/\D/g, '');if (!telefone) {
+document.getElementById('telefone')
+.value.replace(/\D/g, '');
+if (!telefone) {
 alert('Informe o WhatsApp do cliente com DDD.');
-document.getElementById('telefone').focus();
 return;
 }
 let numero = telefone;
-if (numero.length === 10 || numero.length ===
-11) {
+if (numero.length === 10 || numero.length ===11) {
 numero = '55' + numero;
 }
-if (numero.length < 12 || numero.length > 13) {
-alert('Confira o número do WhatsApp com DDD.');
+if (numero.length !== 12 && numero.length !==
+13) {
+alert('Número inválido. Confira o DDD e o
+telefone.');
 return;
 }
 const texto = gerar();
-const link = 'https://wa.me/' + numero + '?text='+ encodeURIComponent(texto);
+const link =
+'https://wa.me/' + numero +
+'?text=' + encodeURIComponent(texto);
 window.open(link, '_blank');
+}function imprimir() {
+gerar();
+window.print();
 }
-atualizar();
+calcular();
 </script>
 </body>
 </html>
