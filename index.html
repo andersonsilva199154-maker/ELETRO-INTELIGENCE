@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=devicewidth, initial-scale=1.0">
+<title>Eletro Inteligência - Orçamento</title>
+<style>
+body{font-family:Arial,sansserif;background:#0f172a;color:#fff;margin:0;pad
+ding:16px}
+.card{background:#fff;color:#111;borderradius:16px;padding:18px;maxwidth:520px;margin:auto}
+h1{color:#facc15;text-align:center;margin:0}
+p.sub{text-align:center;color:#cbd5e1}
+label{font-weight:bold;display:block;margintop:12px}
+input,select,textarea{width:100%;padding:12px;b
+order-radius:10px;border:1px solid #ccc;margintop:5px;box-sizing:border-box;font-size:16px}
+button{width:100%;padding:14px;border:none;bor
+der-radius:12px;font-size:17px;fontweight:bold;margin-top:12px;cursor:pointer}
+.btn-amarelo{background:#facc15}
+.btn-verde{background:#22c55e;color:#fff}
+.btn-cinza{background:#e2e8f0}
+.resultado{background:#fef9c3;borderradius:12px;padding:14px;margin-top:14px}
+.total{font-size:26px;fontweight:bold;color:#16a34a}
+</style>
+</head>
+<body>
+<h1>Õ ELETRO INTELIGÊNCIA</h1>
+<p class="sub">Gerador de Orçamento Elétrico</
+p>
+<div class="card"><label>Nome do Cliente</label>
+<input id="cliente" placeholder="Ex: Maria Silva">
+<label>Endereço da Obra</label>
+<input id="endereco" placeholder="Ex: Rua...,
+Campos dos Goytacazes - RJ">
+<label>Serviço</label>
+<select id="servico">
+<option>Instalação elétrica residencial
+completa</option>
+<option>Instalação de padrão de entrada</
+option>
+<option>Montagem de QDC / Quadro de
+distribuição</option>
+<option>Passagem de cabos / fiação</option>
+<option>Instalação de tomadas e interruptores</
+option>
+<option>Outro serviço</option>
+</select><label>Valor da Mão de Obra (R$`)</label>
+<input id="valor" type="number" value="6000"
+oninput="calcular()">
+<label>Desconto (%)</label>
+<input id="desconto" type="number" value="25"
+oninput="calcular()">
+<label>Observações</label>
+<textarea id="obs" rows="3">Infraestrutura
+(eletrodutos e caixas) existente e completa.
+Materiais por conta do cliente.</textarea>
+<div class="resultado">
+Desconto: <b id="vDesconto">R$ 1.500,00&lt;/
+b&gt;&lt;br&gt; Valor Final: &lt;div class="total"
+id="vFinal"&gt;R$ 4.500,00</div>
+</div><button class="btn-amarelo"
+onclick="gerar()">GERAR ORÇAMENTO</button>
+<button class="btn-verde"
+onclick="whatsapp()">ENVIAR PELO
+WHATSAPP</button>
+<button class="btn-cinza"
+onclick="window.print()">IMPRIMIR / SALVAR
+PDF</button>
+<div id="saida" style="margin-top:16px;whitespace:pre-line"></div>
+</div>
+<script>
+function calcular(){
+let
+v=parseFloat(document.getElementById('valor').v
+alue)||0;
+let
+d=parseFloat(document.getElementById('desconto').value)||0;
+let desc=v*d/100;
+let final=v-desc;
+document.getElementById('vDesconto').innerText
+='R$ '+desc.toLocaleString('pt-BR',
+{minimumFractionDigits:2});
+document.getElementById('vFinal').innerText='R$
+'+final.toLocaleString('pt-BR',
+{minimumFractionDigits:2});
+return {v,desc,final};
+}
+function gerar(){
+let
+c=document.getElementById('cliente').value||'Clie
+nte';
+let
+e=document.getElementById('endereco').value||'';
+let s=document.getElementById('servico').value;
+let o=document.getElementById('obs').value;
+let r=calcular();document.getElementById('saida').innerText=
+'ORÇAMENTO - ELETRO
+INTELIGÊNCIA\n\nCliente: '+c+'\nEndereço:
+'+e+'\nServiço: '+s+'\n\nValor mão de obra: R$
+'+r.v.toLocaleString('pt-BR',
+{minimumFractionDigits:2})+'\nDesconto: R$
+'+r.desc.toLocaleString('pt-BR',
+{minimumFractionDigits:2})+'\nVALOR FINAL:
+R`$ '+r.final.toLocaleString('pt-BR',
+{minimumFractionDigits:2})+'\n\nObservações:
+'+o;
+}
+function whatsapp(){
+gerar();
+let
+texto=encodeURIComponent(document.getElem
+entById('saida').innerText);
+window.open('https://wa.me/5522999999999?
+text='+texto,'_blank');
+}calcular();
+</script>
+</body>
+</html
