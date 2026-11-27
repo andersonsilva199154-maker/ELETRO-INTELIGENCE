@@ -2,121 +2,114 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initialscale=1.0">
+<meta name="viewport" content="width=devicewidth, initial-scale=1.0">
 <title>Eletro Inteligência - Orçamento</title>
 <style>
-body{font-family:Arial,sansserif;background:#0f172a;color:#fff;margin:0;p
-1.
-2.
-3.
-4.
-5.
-6.
-7.adding:16px}
+body{font-family:Arial,sansserif;background:#0f172a;color:#fff;margin:0;pad
+ding:16px}
 .card{background:#fff;color:#111;borderradius:16px;padding:18px;maxwidth:520px;margin:auto}
 h1{color:#facc15;text-align:center;margin:0}
 p.sub{text-align:center;color:#cbd5e1}
 label{font-weight:bold;display:block;margintop:12px}
-input,select,textarea{width:100%;padding:12px;
-border-radius:10px;border:1px solid
-#ccc;margin-top:5px;box-sizing:borderbox;font-size:16px}
-button{width:100%;padding:14px;border:none;
-border-radius:12px;font-size:17px;fontweight:bold;margin-top:12px;cursor:pointer}
+input,select,textarea{width:100%;padding:12px;b
+order-radius:10px;border:1px solid #ccc;margintop:5px;box-sizing:border-box;font-size:16px}
+button{width:100%;padding:14px;border:none;bor
+der-radius:12px;font-size:17px;fontweight:bold;margin-top:12px;cursor:pointer}
 .btn-amarelo{background:#facc15}
 .btn-verde{background:#22c55e;color:#fff}
 .btn-cinza{background:#e2e8f0}
-.resultado{background:#fef9c3;borderradius:12px;padding:14px;margin-top:14px}.total{font-size:26px;fontweight:bold;color:#16a34a;display:block}
+.resultado{background:#fef9c3;borderradius:12px;padding:14px;margin-top:14px}
+.total{font-size:26px;fontweight:bold;color:#16a34a;display:block}
 </style>
 </head>
 <body>
 <h1>Õ ELETRO INTELIGÊNCIA</h1>
-<p class="sub">Gerador de Orçamento
-Elétrico</p>
+<p class="sub">Gerador de Orçamento Elétrico</
+p>
 <div class="card">
 <label>Nome do Cliente</label>
-<input id="cliente" placeholder="Ex: Maria
-Silva">
-<label>Endereço da Obra</label>
+<input id="cliente" placeholder="Ex: Maria Silva"><label>Endereço da Obra</label>
 <input id="endereco" placeholder="Ex: Rua...,
 Campos dos Goytacazes - RJ">
 <label>Serviço</label>
 <select id="servico">
 <option>Instalação elétrica residencial
 completa</option>
-<option>Instalação de padrão de entrada</option>
+<option>Instalação de padrão de entrada</
+option>
 <option>Montagem de QDC / Quadro de
 distribuição</option>
-<option>Passagem de cabos / fiação</
+<option>Passagem de cabos / fiação</option>
+<option>Instalação de tomadas e interruptores</
 option>
-<option>Instalação de tomadas e
-interruptores</option>
 <option>Outro serviço</option>
 </select>
-<label>Valor da Mão de Obra (R$)&lt;/
-label&gt; &lt;input id="valor" type="number"
-value="6000"&gt; &lt;label&gt;Desconto (%)&lt;/
-label&gt; &lt;input id="desconto"
-type="number" value="0"&gt;
-&lt;label&gt;Observações&lt;/label&gt;
-&lt;textarea id="obs"
-rows="3"&gt;Infraestrutura (eletrodutos e
-caixas) existente e completa. Materiais por
-conta do cliente.&lt;/textarea&gt; &lt;div
-class="resultado"&gt; &lt;span&gt;Desconto:&lt;/span&gt;&lt;span id="vDesconto"&gt;R$
+<label>Valor da Mão de Obra (R
 0,00</span><br>
-<span>Valor Final: </span><span class="total"
-id="vFinal">R$ 6.000,00&lt;/span&gt; &lt;/
-div&gt; &lt;button class="btn-amarelo"
-onclick="gerar()"&gt;GERAR ORÇAMENTO&lt;/
-button&gt; &lt;button class="btn-verde"
+<span>Valor Final: </span><span class="total"id="vFinal">R
+latex
+6.000,00&lt;/span&gt; &lt;/div&gt;
+&lt;button class="btn-amarelo"
+onclick="gerar()"&gt;GERAR
+ORÇAMENTO&lt;/button&gt; &lt;button
+class="btn-verde"
 onclick="whatsapp()"&gt;ENVIAR PELO
 WHATSAPP&lt;/button&gt; &lt;button
 class="btn-cinza"
 onclick="window.print()"&gt;IMPRIMIR /
-SALVAR PDF&lt;/button&gt; &lt;div id="saida"
-style="margin-top:16px;white-space:preline"&gt;&lt;/div&gt; &lt;/div&gt; &lt;script&gt;
-function calcular(){ let
-v=parseFloat(document.getElementById('valor'
-).value)||0; let
-d=parseFloat(document.getElementById('desc
-onto').value)||0; let desc=v*d/100; let final=vdesc;document.getElementById('vDesconto').textCo
-ntent='R$ '+desc.toLocaleString('pt-BR',
+SALVAR PDF&lt;/button&gt; &lt;div
+id="saida" style="margin-top:16px;whitespace:pre-line"&gt;&lt;/div&gt; &lt;/
+div&gt; &lt;script&gt; function calcular(){
+let
+v=parseFloat(document.getElementById(
+'valor').value)||0; let
+d=parseFloat(document.getElementById
+('desconto').value)||0; let desc=v*d/100;
+let final=v-desc;
+document.getElementById('vDesconto').t
+extContent='R'+desc.toLocaleString('pt-BR',
 {minimumFractionDigits:2});
-document.getElementById('vFinal').textConten
-t='R$ '+final.toLocaleString('pt-BR',
+document.getElementById('vFinal').textContent='
+R
+latex
+'+final.toLocaleString('pt-BR',
 {minimumFractionDigits:2}); return
 {v,desc,final}; }
-document.getElementById('valor').addEventLis
-tener('input',calcular);
-document.getElementById('desconto').addEve
-ntListener('input',calcular); function gerar(){ let
-c=document.getElementById('cliente').value||'C
-liente'; let
-e=document.getElementById('endereco').value|
-|''; let
-s=document.getElementById('servico').value;
-let o=document.getElementById('obs').value;
-let r=calcular();
-document.getElementById('saida').innerText='
-ORÇAMENTO - ELETROINTELIGÊNCIA\n\nCliente: '+c+'\nEndereço:
-'+e+'\nServiço: '+s+'\n\nValor mão de obra:
-R$ '+r.v.toLocaleString('pt-BR',
-{minimumFractionDigits:2})+'\nDesconto: R$
+document.getElementById('valor').addEv
+entListener('input',calcular);
+document.getElementById('desconto').ad
+dEventListener('input',calcular); function
+gerar(){ let
+c=document.getElementById('cliente').va
+lue||'Cliente'; let
+e=document.getElementById('endereco').
+value||''; let
+s=document.getElementById('servico').va
+lue; let
+o=document.getElementById('obs').value
+; let r=calcular();document.getElementById('saida').innerT
+ext='ORÇAMENTO - ELETRO
+INTELIGÊNCIA\n\nCliente:
+'+c+'\nEndereço: '+e+'\nServiço:
+'+s+'\n\nValor mão de obra: R
+'+r.v.toLocaleString('pt-BR',
+{minimumFractionDigits:2})+'\nDesconto: R
+latex
 '+r.desc.toLocaleString('pt-BR',
-{minimumFractionDigits:2})+'\nVALOR FINAL:
-R$ '+r.final.toLocaleString('pt-BR',
-{minimumFractionDigits:2})
-+'\n\nObservações: '+o;
+{minimumFractionDigits:2})+'\nVALOR
+FINAL: R
+'+r.final.toLocaleString('pt-BR',
+{minimumFractionDigits:2})+'\n\nObservações:
+'+o;
 }
 function whatsapp(){
 gerar();
-let
-texto=encodeURIComponent(document.getEle
-mentById('saida').innerText);
-window.open('https://wa.me/
-5522999999999?text='+texto,'_blank');
+lettexto=encodeURIComponent(document.getElem
+entById('saida').innerText);
+window.open('https://wa.me/5522999999999?
+text='+texto,'_blank');
 }
 calcular();
-</script></body>
+</script>
+</body>
 </html>
