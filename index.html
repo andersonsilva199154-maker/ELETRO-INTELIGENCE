@@ -3,238 +3,184 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
 <title>Eletro Inteligente</title>
 <style>
+:root{--bg:#0f172a;--panel:#17243b;--panel2:#1e2d46;--line:#334155;--text:#f8fafc;--muted:#a8b6c9;--yellow:#facc15;--green:#22c55e;--red:#f87171}
 *{box-sizing:border-box}
-:root{--navy:#0f172a;--blue:#1e293b;--yellow:#facc15;--green:#15803d;--muted:#64748b}
-body{font-family:Arial,sans-serif;background:var(--navy);color:#fff;margin:0;padding:14px}
-header{max-width:1100px;margin:0 auto 16px}
-h1{color:var(--yellow);text-align:center;margin:8px 0 16px}
-nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-nav button{width:auto;margin:0;background:#334155;color:#fff;padding:11px 14px}
-nav button.active{background:var(--yellow);color:#111}
-main{max-width:1100px;margin:auto}
-.panel{display:none;background:#fff;color:#111;border-radius:14px;padding:18px;margin:0 auto 18px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;line-height:1.45}
+header{padding:20px 16px 14px;text-align:center;background:#111c31;border-bottom:1px solid var(--line)}
+h1{margin:0;color:var(--yellow);font-size:25px}
+header p{margin:5px 0 0;color:var(--muted);font-size:13px}
+nav{display:flex;gap:7px;padding:12px;overflow-x:auto;background:#111c31;position:sticky;top:0;z-index:5}
+nav button{white-space:nowrap;flex:1;min-width:max-content}
+main{max-width:1000px;margin:auto;padding:14px}
+.panel{display:none;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:18px}
 .panel.active{display:block}
-h2{margin:0 0 14px;color:#0f172a}
-h3{color:#0f172a;margin:0 0 10px}
-label{display:block;font-weight:bold;margin-top:12px}
-input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:9px;margin-top:5px;font-size:16px;background:#fff;color:#111}
-input:read-only{background:#e2e8f0}
-button{width:100%;padding:13px;border:0;border-radius:10px;font-size:15px;font-weight:bold;margin-top:10px;cursor:pointer;background:#e2e8f0;color:#111}
-button.primary{background:var(--yellow)}
-button.green{background:#16a34a;color:white}
-button.dark{background:#1e293b;color:white}
-button.danger{background:#fee2e2;color:#991b1b}
-button.small{width:auto;padding:8px 11px;margin:3px;font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
-.card{background:#f1f5f9;padding:14px;border-radius:10px;margin-top:12px}
-.metric{font-size:24px;font-weight:bold;color:#15803d}
-.muted,.help{font-size:13px;color:#475569;line-height:1.5}
-.list-item{border:1px solid #cbd5e1;border-radius:10px;padding:12px;margin-top:10px}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
-.row button{flex:0 0 auto}
-hr{border:0;border-top:1px solid #cbd5e1;margin:16px 0}
+h2{font-size:20px;margin:0 0 14px;color:var(--yellow)}
+h3{font-size:16px;margin:14px 0 8px}
+p.help,.muted{color:var(--muted);font-size:13px}
+label{display:block;font-size:13px;color:#dbe5f2;margin:10px 0 5px}
+input,select,textarea{width:100%;padding:11px;border-radius:8px;border:1px solid #475569;background:#0d1729;color:white;font-size:15px}
+input[type=checkbox]{width:auto;accent-color:var(--yellow);transform:scale(1.15);margin-right:7px}
+button{border:0;border-radius:9px;padding:11px 14px;font-size:14px;font-weight:bold;background:var(--yellow);color:#172033;cursor:pointer}
+button.secondary{background:#334155;color:white}
+button.danger{background:#7f1d1d;color:white}
+button.green{background:#15803d;color:white}
+button:active{opacity:.8}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}
+.env-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.env-option{display:flex;align-items:center;background:#22334e;padding:10px;border-radius:8px;font-size:14px}
+.equip-row{display:grid;grid-template-columns:1.5fr .65fr .8fr .75fr;gap:7px;align-items:end;margin:9px 0;padding:9px;background:#17243b;border-radius:8px}
+.equip-row label{margin:0;font-size:11px}
+.equip-row input,.equip-row select{padding:8px;font-size:13px}
+.equip-row .equip-name{align-self:center;font-size:13px}
+.total{background:#0c1729;border:1px solid #475569;border-radius:10px;padding:13px;margin:12px 0}
+.total strong{color:var(--yellow);font-size:20px}
+.notice{border-left:4px solid var(--yellow);padding:9px 11px;background:#332e19;color:#fef3c7;font-size:12px;border-radius:5px;margin:12px 0}
+.saved-item{border:1px solid var(--line);padding:12px;border-radius:9px;margin:8px 0;background:#1b2a42}
+.small{font-size:12px;color:var(--muted)}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.actions button{flex:1}
 .hidden{display:none!important}
-.tag{display:inline-block;background:#dbeafe;color:#1e40af;padding:4px 8px;border-radius:20px;font-size:12px}
-#saida{white-space:pre-wrap;line-height:1.5;background:#f8fafc;padding:14px;border-radius:9px;margin-top:14px}
-@media print{body{background:#fff;color:#111;padding:0}.no-print,nav,header{display:none!important}.panel{display:none!important}#relatorioPrint{display:block!important}}
+hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+@media(max-width:600px){main{padding:10px}.panel{padding:12px}.grid{grid-template-columns:1fr}.equip-row{grid-template-columns:1.2fr .7fr .8fr}.equip-row .voltage{grid-column:1/3}.equip-row .remove{grid-column:3}.env-grid{grid-template-columns:1fr 1fr}nav button{padding:10px}}
+@media print{
+ body{background:white!important;color:black!important}
+ header,nav,main>.panel:not(#printArea),#printArea button{display:none!important}
+ main{padding:0;max-width:none}
+ #printArea{display:block!important;border:0!important;background:white!important;color:black!important}
+ #printArea h2,#printArea h3{color:black!important}
+ #printContent{color:black!important}
+}
 </style>
 </head>
 <body>
-<header>
-<h1>ELETRO INTELIGENTE</h1>
-<nav class="no-print">
-<button class="active" data-tab="orcamento">Orçamentos</button>
-<button data-tab="projetos">Projetos elétricos</button>
-<button data-tab="salvos">Meus registros</button>
+<header><h1>⚡ Eletro Inteligente</h1><p>Orçamentos, projetos elétricos e organização de serviços</p></header>
+<nav>
+<button onclick="showTab('orcamento')">Orçamentos</button>
+<button class="secondary" onclick="showTab('projeto')">Projetos elétricos</button>
+<button class="secondary" onclick="showTab('registros')">Meus registros</button>
 </nav>
-</header>
 <main>
 <section id="orcamento" class="panel active">
-<h2>Gerador de Orçamentos</h2>
+<h2>Gerador de orçamento</h2>
 <div class="grid">
 <div><label>Nome do cliente</label><input id="cliente" placeholder="Nome do cliente"></div>
-<div><label>Endereço da obra</label><input id="endereco" placeholder="Endereço completo"></div>
-<div><label>Tipo de serviço</label><select id="servico">
-<option>Instalação residencial completa</option><option>Instalação elétrica industrial</option>
-<option>Manutenção elétrica residencial</option><option>Manutenção elétrica industrial</option>
-<option>Instalação de padrão de entrada</option><option>Montagem de quadro QDC</option>
-<option>Instalação de circuitos</option><option>Instrumentação elétrica</option><option>Outro serviço</option>
-</select></div>
+<div><label>Endereço</label><input id="endereco" placeholder="Endereço da obra"></div>
 </div>
-<div class="card">
-<h3>1. Configuração da mão de obra</h3>
+<label>Descrição do serviço</label><textarea id="servico" rows="2" placeholder="Descreva o serviço a executar"></textarea>
 <div class="grid">
-<div><label>Modo de cálculo</label><select id="modo"><option value="automatico">Automático</option><option value="manual">Manual</option></select></div>
-<div><label>Valor da hora por profissional (R$)</label><input id="valorHora" inputmode="decimal" value="0"></div>
-<div><label>Quantidade de profissionais</label><input id="profissionais" type="number" min="1" step="1" value="1"></div>
-<div><label>Quantidade de serviços/equipamentos</label><input id="quantidade" type="number" min="1" step="1" value="1"></div>
-<div><label>Horas por profissional e por serviço</label><input id="horas" inputmode="decimal" value="0"></div>
-<div><label>Valor da mão de obra (R$)</label><input id="valor" inputmode="decimal" value="0"></div>
+<div><label>Forma de cálculo da mão de obra</label><select id="modoMao" onchange="atualizarModo()"><option value="auto">Calcular pelas horas</option><option value="manual">Informar valor manual</option></select></div>
+<div><label>Valor da hora por profissional (R$)</label><input id="valorHora" type="number" min="0" step="0.01" value="50" oninput="gerarOrcamento()"></div>
+<div><label>Quantidade de profissionais</label><input id="profissionais" type="number" min="1" value="1" oninput="gerarOrcamento()"></div>
+<div><label>Quantidade de serviços iguais</label><input id="quantidade" type="number" min="1" value="1" oninput="gerarOrcamento()"></div>
+<div><label>Horas por profissional, por serviço</label><input id="horas" type="number" min="0" step="0.5" value="8" oninput="gerarOrcamento()"></div>
+<div id="manualBox" class="hidden"><label>Valor manual da mão de obra (R$)</label><input id="maoManual" type="number" min="0" step="0.01" value="0" oninput="gerarOrcamento()"></div>
 </div>
-<p class="help" id="explicacao">O cálculo automático considera horas por profissional. Exemplo: 8 horas para cada profissional em um dia.</p>
-</div>
-<div class="card">
-<h3>2. Materiais e descontos</h3>
+<p class="help">As horas representam o tempo de trabalho de cada profissional. Ex.: 2 profissionais trabalhando 8 horas cada = 16 horas-homem.</p>
 <div class="grid">
-<div><label>Valor dos materiais (R$)</label><input id="materiais" inputmode="decimal" value="0"></div>
-<div><label>Desconto (%)</label><input id="desconto" type="number" min="0" max="100" step="0.01" value="0"></div>
+<div><label>Custo dos materiais (R$)</label><input id="materiais" type="number" min="0" step="0.01" value="0" oninput="gerarOrcamento()"></div>
+<div><label>Desconto (%)</label><input id="desconto" type="number" min="0" max="100" step="0.1" value="0" oninput="gerarOrcamento()"></div>
 </div>
-</div>
-<div class="card">
-<h3>Resumo</h3>
-<p>Mão de obra: <strong id="vMao">R$ 0,00</strong></p>
-<p>Materiais: <strong id="vMateriais">R$ 0,00</strong></p>
-<p>Subtotal: <strong id="subtotal">R$ 0,00</strong></p>
-<p>Desconto: <strong id="vDesconto">R$ 0,00</strong></p>
-<hr><p>VALOR FINAL</p><div class="metric" id="vFinal">R$ 0,00</div>
-</div>
-<div class="grid no-print">
-<div><label>WhatsApp do cliente com DDD</label><input id="telefone" type="tel" placeholder="Ex.: 22999999999"></div>
-<div><label>Identificação do orçamento (opcional)</label><input id="tituloOrcamento" placeholder="Ex.: Reforma elétrica - casa"></div>
-</div>
-<div class="no-print">
-<button class="primary" onclick="gerar()">GERAR ORÇAMENTO</button>
-<button class="green" onclick="salvarOrcamento()">SALVAR ORÇAMENTO</button>
-<button class="green" onclick="zap()">ENVIAR PELO WHATSAPP</button>
-<button onclick="imprimirOrcamento()">IMPRIMIR / SALVAR PDF</button>
-</div>
-<div id="saida"></div>
+<div class="total" id="resultadoOrcamento">Preencha os dados para calcular o orçamento.</div>
+<div class="actions"><button onclick="salvarOrcamento()">Salvar orçamento</button><button class="secondary" onclick="imprimirOrcamento()">Imprimir / PDF</button><button class="green" onclick="whatsappOrcamento()">Enviar pelo WhatsApp</button></div>
 </section>
 
-<section id="projetos" class="panel">
-<h2>Projeto Elétrico Inteligente</h2>
-<p class="help">Cadastre os dados da residência e seus ambientes. Nesta primeira entrega, o sistema organiza o levantamento e calcula áreas/perímetros. O dimensionamento normativo de circuitos, condutores e proteções será desenvolvido e validado em uma etapa posterior.</p>
-<div class="card">
-<h3>1. Identificação do projeto</h3>
+<section id="projeto" class="panel">
+<h2>Projeto elétrico inteligente</h2>
+<p class="help">Cadastre o projeto, selecione os ambientes e marque os equipamentos. As potências iniciais são referências editáveis, não substituem os dados de placa dos equipamentos.</p>
 <div class="grid">
-<div><label>Nome do projeto / cliente</label><input id="projNome" placeholder="Ex.: Residência Silva"></div>
-<div><label>Endereço</label><input id="projEndereco" placeholder="Endereço da obra"></div>
-<div><label>Tipo de instalação</label><select id="projTipo"><option>Residencial</option><option>Comercial</option></select></div>
-<div><label>Tensão disponível (V)</label><select id="projTensao"><option value="">A definir</option><option>127/220</option><option>220</option><option>220/380</option><option>Outro / confirmar</option></select></div>
+<div><label>Nome do projeto</label><input id="projNome" placeholder="Ex.: Residência Silva"></div>
+<div><label>Cliente</label><input id="projCliente" placeholder="Nome do cliente"></div>
+<div><label>Endereço</label><input id="projEndereco" placeholder="Endereço da instalação"></div>
+<div><label>Tipo de instalação</label><select id="projTipo"><option>Residencial</option><option>Comercial</option><option>Industrial</option><option>Outro</option></select></div>
+<div><label>Tensão de referência da instalação</label><select id="projTensao"><option value="127/220">127/220 V</option><option value="220">220 V</option><option value="127">127 V</option><option value="380/220">380/220 V</option><option value="Outro">Outra / definir depois</option></select></div>
+<div><label>Observações</label><input id="projObs" placeholder="Informações adicionais"></div>
 </div>
-<label>Importar planta baixa (PDF ou imagem)</label>
-<input id="planta" type="file" accept=".pdf,image/*">
-<p class="help" id="arquivoInfo">Selecione uma planta para referência. Nesta versão, o nome do arquivo fica registrado; a interpretação automática e o armazenamento do arquivo na nuvem serão implementados depois.</p>
+<hr>
+<h3>1. Selecione os ambientes do projeto</h3>
+<div class="env-grid" id="environmentList"></div>
+<div class="row" style="margin-top:10px">
+<div><label>Adicionar ambiente personalizado</label><input id="customRoom" placeholder="Ex.: Quarto de hóspedes"></div>
+<div style="align-self:end"><button class="secondary" onclick="addCustomRoom()">Adicionar ambiente</button></div>
 </div>
-<div class="card">
-<h3>2. Adicionar ambientes</h3>
-<div class="grid">
-<div><label>Nome do ambiente</label><select id="ambienteTipo">
-<option>Sala</option><option>Cozinha</option><option>Quarto</option><option>Suíte</option><option>Banheiro</option><option>Área de serviço</option><option>Varanda</option><option>Corredor</option><option>Garagem</option><option>Outro</option>
-</select></div>
-<div><label>Nome personalizado (se Outro)</label><input id="ambienteNome" placeholder="Nome do ambiente"></div>
-<div><label>Comprimento (m)</label><input id="comprimento" type="number" min="0" step="0.01" placeholder="Ex.: 4"></div>
-<div><label>Largura (m)</label><input id="largura" type="number" min="0" step="0.01" placeholder="Ex.: 3"></div>
-<div><label>Equipamentos / observações</label><input id="equipamentos" placeholder="Ex.: chuveiro 5500 W, ar-condicionado"></div>
+<div id="roomsContainer"></div>
+<div class="total" id="projectTotals">
+Potência total selecionada: <strong>0 W</strong><br><span class="small">0,00 kW • 0 ambientes • 0 equipamentos</span>
 </div>
-<button class="primary" onclick="adicionarAmbiente()">ADICIONAR AMBIENTE</button>
-<div id="listaAmbientes"></div>
-</div>
-<div class="card">
-<h3>3. Resumo do levantamento</h3>
-<div class="grid">
-<div><p class="muted">Quantidade de ambientes</p><div class="metric" id="totalAmbientes">0</div></div>
-<div><p class="muted">Área total cadastrada</p><div class="metric" id="areaTotal">0,00 m²</div></div>
-<div><p class="muted">Perímetro somado</p><div class="metric" id="perimetroTotal">0,00 m</div></div>
-</div>
-<button class="green" onclick="salvarProjeto()">SALVAR PROJETO</button>
-<button onclick="relatorioProjeto()">GERAR RELATÓRIO DO LEVANTAMENTO</button>
-<div id="relatorioProjeto" class="help"></div>
-</div>
+<div class="notice">A potência total é uma soma de cargas cadastradas. Ela ainda não representa demanda calculada nem dimensionamento final. Para dimensionar circuitos, condutores e proteções serão necessários dados adicionais, como método de instalação, comprimentos, agrupamento, temperatura, queda de tensão e características da alimentação.</div>
+<h3>2. Planta baixa (opcional)</h3>
+<label>Selecionar arquivo da planta</label><input id="plantFile" type="file" accept=".pdf,.png,.jpg,.jpeg">
+<p class="small" id="plantInfo">Nesta versão, o nome do arquivo será registrado; a leitura automática da planta será implementada em etapa futura.</p>
+<div class="actions"><button onclick="saveProject()">Salvar projeto</button><button class="secondary" onclick="printProject()">Relatório / PDF</button></div>
 </section>
 
-<section id="salvos" class="panel">
+<section id="registros" class="panel">
 <h2>Meus registros</h2>
-<p class="help">Os registros desta primeira versão ficam salvos neste navegador e neste aparelho. Limpar os dados do navegador pode apagá-los. Faça cópias/exports dos documentos importantes; a sincronização em nuvem será adicionada posteriormente.</p>
-<div class="card"><h3>Orçamentos salvos</h3><div id="listaOrcamentos"></div></div>
-<div class="card"><h3>Projetos salvos</h3><div id="listaProjetos"></div></div>
+<h3>Orçamentos salvos</h3><div id="quotesList"></div>
+<hr><h3>Projetos salvos</h3><div id="projectsList"></div>
 </section>
-<section id="relatorioPrint" class="panel"></section>
+
+<section id="printArea" class="panel">
+<h2>Relatório - Eletro Inteligente</h2><div id="printContent"></div>
+</section>
 </main>
 <script>
-const dinheiro=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
-const ler=id=>document.getElementById(id);
-const numeroBR=v=>{let t=String(v??'0').trim().replace(/[R$\\s]/g,'');if(!t)return 0;if(t.includes(',')){t=t.replace(/\\./g,'').replace(',','.')}else if(/^\\d{1,3}(\\.\\d{3})+$/.test(t)){t=t.replace(/\\./g,'')}const n=Number(t);return Number.isFinite(n)?Math.max(0,n):0};
-const lerLista=(k)=>{try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return []}};
-const gravarLista=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-let ambientes=[];
-let arquivoPlantaNome='';
-document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');ler(b.dataset.tab).classList.add('active');if(b.dataset.tab==='salvos')renderSalvos()}));
-function calcular(){
- const modo=ler('modo').value, vh=numeroBR(ler('valorHora').value);
- const prof=Math.max(1,Math.floor(Number(ler('profissionais').value)||1));
- const qtd=Math.max(1,Math.floor(Number(ler('quantidade').value)||1));
- const horas=numeroBR(ler('horas').value);
- let mao;
- if(modo==='automatico'){mao=prof*qtd*horas*vh;ler('valor').value=mao.toFixed(2).replace('.',',')}
- else mao=numeroBR(ler('valor').value);
- const mat=numeroBR(ler('materiais').value), pct=Math.min(100,Math.max(0,Number(ler('desconto').value)||0));
- const subtotal=mao+mat, desconto=subtotal*pct/100,total=subtotal-desconto;
- ler('vMao').textContent=dinheiro.format(mao);ler('vMateriais').textContent=dinheiro.format(mat);ler('subtotal').textContent=dinheiro.format(subtotal);ler('vDesconto').textContent=dinheiro.format(desconto);ler('vFinal').textContent=dinheiro.format(total);
- return {mao,materiais:mat,subtotal,desconto,descontoPercentual:pct,total,valorHora:vh,profissionais:prof,quantidade:qtd,horas,totalHoras:horas*qtd,modo};
-}
-function atualizarModo(){const auto=ler('modo').value==='automatico';ler('valor').readOnly=auto;ler('explicacao').textContent=auto?'As horas informadas são por profissional. Exemplo: 8 horas para cada profissional em um dia.':'Informe manualmente o valor total da mão de obra.';calcular()}
-['modo','valorHora','profissionais','quantidade','horas','valor','materiais','desconto'].forEach(id=>['input','change'].forEach(ev=>ler(id).addEventListener(ev,()=>id==='modo'?atualizarModo():calcular())));
-function dadosOrcamento(){
- const v=calcular();
- return {id:Date.now(),data:new Date().toLocaleString('pt-BR'),titulo:ler('tituloOrcamento').value.trim()||'Orçamento - '+(ler('cliente').value.trim()||'Cliente não informado'),cliente:ler('cliente').value.trim(),endereco:ler('endereco').value.trim(),servico:ler('servico').value,telefone:ler('telefone').value, ...v};
-}
-function textoOrcamento(o){
- return `ELETRO INTELIGENTE\\nORÇAMENTO DE SERVIÇOS ELÉTRICOS\\n\\nCliente: ${o.cliente||'Não informado'}\\nEndereço: ${o.endereco||'Não informado'}\\nServiço: ${o.servico}\\n\\nModo: ${o.modo==='automatico'?'Automático':'Manual'}\\nProfissionais: ${o.profissionais}\\nQuantidade de serviços: ${o.quantidade}\\nHoras por profissional/serviço: ${o.horas}\\nValor hora: ${dinheiro.format(o.valorHora)}\\n\\nMão de obra: ${dinheiro.format(o.mao)}\\nMateriais: ${dinheiro.format(o.materiais)}\\nSubtotal: ${dinheiro.format(o.subtotal)}\\nDesconto: ${o.descontoPercentual}% (${dinheiro.format(o.desconto)})\\n\\nVALOR FINAL: ${dinheiro.format(o.total)}\\n\\nAgradecemos a preferência!\\nELETRO INTELIGENTE`;
-}
-function gerar(){const o=dadosOrcamento();ler('saida').textContent=textoOrcamento(o);return textoOrcamento(o)}
-function salvarOrcamento(){
- try{const o=dadosOrcamento(),lista=lerLista('ei_orcamentos');lista.unshift(o);gravarLista('ei_orcamentos',lista);ler('saida').textContent='Orçamento salvo neste navegador!\\n\\n'+textoOrcamento(o);alert('Orçamento salvo com sucesso neste navegador.')}catch(e){alert('Não foi possível salvar. O armazenamento do navegador pode estar cheio.')}
-}
-function zap(){const tel=ler('telefone').value.replace(/\\D/g,'');if(!tel){alert('Informe o WhatsApp do cliente com DDD.');return}let n=tel;if(n.length===10||n.length===11)n='55'+n;if(n.length!==12&&n.length!==13){alert('Número inválido. Confira DDD e telefone.');return}window.open('https://wa.me/'+n+'?text='+encodeURIComponent(gerar()),'_blank')}
-function imprimirOrcamento(){gerar();window.print()}
-function adicionarAmbiente(){
- const c=Number(ler('comprimento').value),l=Number(ler('largura').value);
- if(!(c>0&&l>0)){alert('Informe comprimento e largura maiores que zero.');return}
- const tipo=ler('ambienteTipo').value,nome=tipo==='Outro'?(ler('ambienteNome').value.trim()||'Outro ambiente'):tipo;
- ambientes.push({nome,comprimento:c,largura:l,area:c*l,perimetro:2*(c+l),equipamentos:ler('equipamentos').value.trim()});
- ['comprimento','largura','ambienteNome','equipamentos'].forEach(id=>ler(id).value='');
- renderAmbientes();
-}
-function renderAmbientes(){
- ler('listaAmbientes').innerHTML=ambientes.length?ambientes.map((a,i)=>`<div class="list-item"><div class="row"><strong>${escapeHTML(a.nome)}</strong><button class="small danger" onclick="removerAmbiente(${i})">Remover</button></div><div>${a.comprimento} m × ${a.largura} m · Área: ${a.area.toFixed(2)} m² · Perímetro: ${a.perimetro.toFixed(2)} m</div><div class="muted">Equipamentos: ${escapeHTML(a.equipamentos||'Não informados')}</div></div>`).join(''):'<p class="muted">Nenhum ambiente adicionado.</p>';
- const area=ambientes.reduce((s,a)=>s+a.area,0),per=ambientes.reduce((s,a)=>s+a.perimetro,0);
- ler('totalAmbientes').textContent=ambientes.length;ler('areaTotal').textContent=area.toFixed(2).replace('.',',')+' m²';ler('perimetroTotal').textContent=per.toFixed(2).replace('.',',')+' m';
-}
-function removerAmbiente(i){ambientes.splice(i,1);renderAmbientes()}
-function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-ler('planta').addEventListener('change',e=>{const f=e.target.files[0];arquivoPlantaNome=f?f.name:'';ler('arquivoInfo').textContent=f?'Planta selecionada: '+f.name+'. Nesta versão, o arquivo original não é armazenado permanentemente.':'Selecione uma planta para referência.'});
-function dadosProjeto(){return {id:Date.now(),data:new Date().toLocaleString('pt-BR'),nome:ler('projNome').value.trim()||'Projeto sem nome',endereco:ler('projEndereco').value.trim(),tipo:ler('projTipo').value,tensao:ler('projTensao').value,planta:arquivoPlantaNome,ambientes:JSON.parse(JSON.stringify(ambientes)),areaTotal:ambientes.reduce((s,a)=>s+a.area,0),perimetroTotal:ambientes.reduce((s,a)=>s+a.perimetro,0)}}
-function salvarProjeto(){
- if(!ambientes.length){alert('Adicione pelo menos um ambiente antes de salvar.');return}
- try{const p=dadosProjeto(),lista=lerLista('ei_projetos');lista.unshift(p);gravarLista('ei_projetos',lista);alert('Projeto salvo neste navegador.')}catch(e){alert('Não foi possível salvar o projeto.')}
-}
-function relatorioProjeto(){
- const p=dadosProjeto();
- if(!p.ambientes.length){alert('Adicione ambientes para gerar o relatório.');return}
- const linhas=p.ambientes.map(a=>`${a.nome}: ${a.comprimento} m × ${a.largura} m | ${a.area.toFixed(2)} m² | perímetro ${a.perimetro.toFixed(2)} m | Equipamentos: ${a.equipamentos||'não informados'}`).join('\\n');
- const texto=`ELETRO INTELIGENTE\\nRELATÓRIO DE LEVANTAMENTO PRELIMINAR\\n\\nProjeto: ${p.nome}\\nEndereço: ${p.endereco||'Não informado'}\\nTipo: ${p.tipo}\\nTensão informada: ${p.tensao||'A definir'}\\nPlanta: ${p.planta||'Não anexada'}\\n\\nAMBIENTES\\n${linhas}\\n\\nTotal de ambientes: ${p.ambientes.length}\\nÁrea cadastrada: ${p.areaTotal.toFixed(2)} m²\\nPerímetro somado: ${p.perimetroTotal.toFixed(2)} m\\n\\nATENÇÃO: Este documento registra dados preliminares. Não é projeto executivo nem memória de cálculo conforme NBR 5410. O dimensionamento depende de dados adicionais, verificações normativas e conferência de profissional habilitado.`;
- ler('relatorioProjeto').textContent=texto;
- const win=window.open('','_blank');if(!win){alert('Permita pop-ups para gerar o relatório.');return}
- win.document.write('<html><head><title>Relatório - Eletro Inteligente</title><meta charset="UTF-8"><style>body{font-family:Arial;padding:28px;white-space:pre-wrap;line-height:1.5}</style></head><body>'+escapeHTML(texto)+'</body></html>');win.document.close();win.focus();setTimeout(()=>win.print(),300);
-}
-function renderSalvos(){
- const os=lerLista('ei_orcamentos'),ps=lerLista('ei_projetos');
- ler('listaOrcamentos').innerHTML=os.length?os.map(o=>`<div class="list-item"><strong>${escapeHTML(o.titulo)}</strong><div class="muted">${escapeHTML(o.data)} · ${escapeHTML(o.cliente||'Cliente não informado')}</div><div><strong>${dinheiro.format(o.total)}</strong></div><button class="small" onclick="abrirOrcamento(${o.id})">Abrir</button><button class="small danger" onclick="excluirRegistro('ei_orcamentos',${o.id})">Excluir</button></div>`).join(''):'<p class="muted">Nenhum orçamento salvo.</p>';
- ler('listaProjetos').innerHTML=ps.length?ps.map(p=>`<div class="list-item"><strong>${escapeHTML(p.nome)}</strong><div class="muted">${escapeHTML(p.data)} · ${p.ambientes.length} ambiente(s) · ${p.areaTotal.toFixed(2)} m²</div><button class="small" onclick="abrirProjeto(${p.id})">Abrir</button><button class="small danger" onclick="excluirRegistro('ei_projetos',${p.id})">Excluir</button></div>`).join(''):'<p class="muted">Nenhum projeto salvo.</p>';
-}
-function abrirOrcamento(id){
- const o=lerLista('ei_orcamentos').find(x=>x.id===id);if(!o)return;
- ler('cliente').value=o.cliente||'';ler('endereco').value=o.endereco||'';ler('servico').value=o.servico;ler('modo').value=o.modo;ler('valorHora').value=String(o.valorHora).replace('.',',');ler('profissionais').value=o.profissionais;ler('quantidade').value=o.quantidade;ler('horas').value=String(o.horas).replace('.',',');ler('valor').value=String(o.mao).replace('.',',');ler('materiais').value=String(o.materiais).replace('.',',');ler('desconto').value=o.descontoPercentual;ler('tituloOrcamento').value=o.titulo;atualizarModo();gerar();document.querySelector('[data-tab="orcamento"]').click();
-}
-function abrirProjeto(id){
- const p=lerLista('ei_projetos').find(x=>x.id===id);if(!p)return;
- ler('projNome').value=p.nome;ler('projEndereco').value=p.endereco;ler('projTipo').value=p.tipo;ler('projTensao').value=p.tensao||'';ambientes=JSON.parse(JSON.stringify(p.ambientes));arquivoPlantaNome=p.planta||'';renderAmbientes();document.querySelector('[data-tab="projetos"]').click();
-}
-function excluirRegistro(k,id){if(!confirm('Deseja excluir este registro?'))return;gravarLista(k,lerLista(k).filter(x=>x.id!==id));renderSalvos()}
-atualizarModo();renderAmbientes();
+const $=id=>document.getElementById(id);
+const money=n=>(Number(n)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const defaultRooms=['Sala de estar','Sala de jantar','Quarto','Suíte','Banheiro','Cozinha','Área de serviço','Varanda','Garagem','Corredor','Escritório','Área externa'];
+const equipmentCatalog={
+'Sala de estar':[['Televisão',150,127],['Ar-condicionado 9.000 BTU/h',900,220],['Ventilador',120,127],['Roteador / modem',20,127]],
+'Sala de jantar':[['Luminária decorativa',100,127],['Ventilador',120,127]],
+'Quarto':[['Televisão',150,127],['Ar-condicionado 9.000 BTU/h',900,220],['Ventilador',120,127],['Computador',300,127]],
+'S suíte':[],
+'Suíte':[['Televisão',150,127],['Ar-condicionado 12.000 BTU/h',1200,220],['Ventilador',120,127]],
+'Banheiro':[['Chuveiro elétrico',5500,220],['Secador de cabelo',1500,127]],
+'Cozinha':[['Geladeira',500,127],['Micro-ondas',1500,127],['Forno elétrico',2000,220],['Cooktop elétrico',3000,220],['Lava-louças',1500,220],['Coifa / exaustor',200,127],['Bebedouro',150,127]],
+'Área de serviço':[['Máquina de lavar roupas',1000,127],['Secadora de roupas',2500,220],['Ferro elétrico',1200,127],['Tanquinho',500,127]],
+'Varanda':[['Ventilador',120,127],['Churrasqueira elétrica',2000,220]],
+'Garagem':[['Carregador veicular (wallbox)',7000,220],['Portão automático',500,220],['Bomba / compressor pequeno',1000,220]],
+'Corredor':[['Luminária / iluminação',100,127]],
+'Escritório':[['Computador',300,127],['Impressora',500,127],['Ar-condicionado 9.000 BTU/h',900,220]],
+'Área externa':[['Bomba d’água',750,220],['Iluminação externa',100,127]]
+};
+let selectedRooms=new Map();
+let currentProjectId=null;
+function showTab(id){document.querySelectorAll('main>.panel').forEach(p=>p.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.add('secondary'));const idx={orcamento:0,projeto:1,registros:2}[id];document.querySelectorAll('nav button')[idx].classList.remove('secondary');if(id==='registros')renderSaved();}
+function atualizarModo(){$('manualBox').classList.toggle('hidden',$('modoMao').value!=='manual');gerarOrcamento();}
+function quoteCalc(){const mode=$('modoMao').value;const labor=mode==='manual'?(+ $('maoManual').value||0):(+ $('profissionais').value||0)*(+ $('quantidade').value||0)*(+ $('horas').value||0)*(+ $('valorHora').value||0);const mat=+$('materiais').value||0;const subtotal=labor+mat;const disc=Math.min(100,Math.max(0,+$('desconto').value||0));return {labor,mat,subtotal,discount:subtotal*disc/100,total:subtotal*(1-disc/100),disc};}
+function gerarOrcamento(){const c=quoteCalc();$('resultadoOrcamento').innerHTML=`<div>Mão de obra: <b>${money(c.labor)}</b></div><div>Materiais: <b>${money(c.mat)}</b></div><div>Subtotal: <b>${money(c.subtotal)}</b></div><div>Desconto: <b>${money(c.discount)}</b></div><hr><div>VALOR FINAL: <strong>${money(c.total)}</strong></div>`;return c;}
+function quoteData(){return {id:Date.now(),cliente:$('cliente').value,endereco:$('endereco').value,servico:$('servico').value,modo:$('modoMao').value,valorHora:$('valorHora').value,profissionais:$('profissionais').value,quantidade:$('quantidade').value,horas:$('horas').value,maoManual:$('maoManual').value,materiais:$('materiais').value,desconto:$('desconto').value,calc:quoteCalc(),date:new Date().toLocaleString('pt-BR')};}
+function getStore(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return []}}
+function setStore(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function salvarOrcamento(){const q=quoteData();if(!q.cliente&&!q.servico){alert('Informe pelo menos o cliente ou a descrição do serviço.');return;}const a=getStore('ei_quotes');a.unshift(q);setStore('ei_quotes',a);alert('Orçamento salvo neste navegador.');}
+function loadQuote(id){const q=getStore('ei_quotes').find(x=>x.id===id);if(!q)return;['cliente','endereco','servico'].forEach(k=>$(k).value=q[k]||'');$('modoMao').value=q.modo||'auto';['valorHora','profissionais','quantidade','horas','maoManual','materiais','desconto'].forEach(k=>$(k).value=q[k]??'');atualizarModo();showTab('orcamento');}
+function deleteItem(key,id){if(!confirm('Deseja excluir este registro?'))return;setStore(key,getStore(key).filter(x=>x.id!==id));renderSaved();}
+function renderSaved(){$('quotesList').innerHTML='';const qs=getStore('ei_quotes');if(!qs.length)$('quotesList').innerHTML='<p class="muted">Nenhum orçamento salvo.</p>';qs.forEach(q=>{const d=document.createElement('div');d.className='saved-item';d.innerHTML=`<b>${esc(q.cliente||'Cliente não informado')}</b><div class="small">${esc(q.servico||'Sem descrição')} • ${esc(q.date||'')}</div><b>${money(q.calc?.total||0)}</b><div class="actions"><button onclick="loadQuote(${q.id})">Abrir</button><button class="danger" onclick="deleteItem('ei_quotes',${q.id})">Excluir</button></div>`;$('quotesList').appendChild(d);});$('projectsList').innerHTML='';const ps=getStore('ei_projects');if(!ps.length)$('projectsList').innerHTML='<p class="muted">Nenhum projeto salvo.</p>';ps.forEach(p=>{const d=document.createElement('div');d.className='saved-item';d.innerHTML=`<b>${esc(p.name)}</b><div class="small">${esc(p.client||'')} • ${esc(p.date||'')}</div><div>${(p.totalW||0).toLocaleString('pt-BR')} W • ${p.rooms?.length||0} ambientes</div><div class="actions"><button onclick="openProject(${p.id})">Abrir</button><button class="danger" onclick="deleteItem('ei_projects',${p.id})">Excluir</button></div>`;$('projectsList').appendChild(d);});}
+function roomToggle(name,checked){if(checked){if(!selectedRooms.has(name)){selectedRooms.set(name,{name,length:'',width:'',equipment:[]});const catalog=equipmentCatalog[name]||[];selectedRooms.get(name).equipment=catalog.map((e,i)=>({id:name+'_'+i,name:e[0],watts:e[1],voltage:String(e[2]),qty:1,checked:false}));}}else selectedRooms.delete(name);renderRooms();updateTotals();}
+function renderEnvironmentList(){const host=$('environmentList');host.innerHTML='';defaultRooms.forEach(name=>{const l=document.createElement('label');l.className='env-option';const cb=document.createElement('input');cb.type='checkbox';cb.checked=selectedRooms.has(name);cb.onchange=()=>roomToggle(name,cb.checked);l.append(cb,document.createTextNode(name));host.appendChild(l);});}
+function addCustomRoom(){const name=$('customRoom').value.trim();if(!name)return alert('Digite o nome do ambiente.');if(selectedRooms.has(name))return alert('Esse ambiente já foi adicionado.');selectedRooms.set(name,{name,length:'',width:'',equipment:[]});$('customRoom').value='';renderEnvironmentList();renderRooms();updateTotals();}
+function addEquipment(roomName){const r=selectedRooms.get(roomName);if(!r)return;r.equipment.push({id:'custom_'+Date.now(),name:'Equipamento personalizado',watts:0,voltage:'127',qty:1,checked:true});renderRooms();updateTotals();}
+function updateRoomField(roomName,field,value){const r=selectedRooms.get(roomName);if(r)r[field]=value;updateTotals();}
+function updateEquip(roomName,index,field,value){const r=selectedRooms.get(roomName);if(!r)return;const e=r.equipment[index];if(!e)return;e[field]=field==='watts'||field==='qty'?Math.max(0,Number(value)||0):value;updateTotals();}
+function renderRooms(){const host=$('roomsContainer');host.innerHTML='';selectedRooms.forEach((r,name)=>{const card=document.createElement('div');card.className='card';let html=`<h3>${esc(name)}</h3><div class="grid"><div><label>Comprimento (m)</label><input type="number" min="0" step="0.01" value="${esc(r.length)}" onchange="updateRoomField(${JSON.stringify(name)},'length',this.value)"></div><div><label>Largura (m)</label><input type="number" min="0" step="0.01" value="${esc(r.width)}" onchange="updateRoomField(${JSON.stringify(name)},'width',this.value)"></div></div><p class="small">Marque os equipamentos que existem neste ambiente e ajuste quantidade, potência e tensão.</p>`;r.equipment.forEach((e,i)=>{html+=`<div class="equip-row"><div class="equip-name"><label><input type="checkbox" ${e.checked?'checked':''} onchange="updateEquip(${JSON.stringify(name)},${i},'checked',this.checked)">${esc(e.name)}</label></div><div><label>Qtd.</label><input type="number" min="1" value="${e.qty}" onchange="updateEquip(${JSON.stringify(name)},${i},'qty',this.value)"></div><div><label>Potência W</label><input type="number" min="0" value="${e.watts}" onchange="updateEquip(${JSON.stringify(name)},${i},'watts',this.value)"></div><div class="voltage"><label>Tensão</label><select onchange="updateEquip(${JSON.stringify(name)},${i},'voltage',this.value)"><option ${e.voltage==='127'?'selected':''}>127</option><option ${e.voltage==='220'?'selected':''}>220</option><option ${e.voltage==='380'?'selected':''}>380</option><option ${e.voltage==='Outro'?'selected':''}>Outro</option></select></div><div class="remove"><button class="danger" onclick="removeEquip(${JSON.stringify(name)},${i})">Remover</button></div></div>`;});html+=`<div class="actions"><button class="secondary" onclick="addEquipment(${JSON.stringify(name)})">+ Adicionar equipamento</button><button class="danger" onclick="roomToggle(${JSON.stringify(name)},false)">Remover ambiente</button></div><div class="small">Área informada: ${r.length&&r.width?(Number(r.length)*Number(r.width)).toFixed(2).replace('.',',')+' m²':'não informada'}</div>`;card.innerHTML=html;host.appendChild(card);});}
+function removeEquip(roomName,index){const r=selectedRooms.get(roomName);if(r){r.equipment.splice(index,1);renderRooms();updateTotals();}}
+function projectCalc(){let total=0,count=0;selectedRooms.forEach(r=>r.equipment.forEach(e=>{if(e.checked){total+=(Number(e.watts)||0)*(Number(e.qty)||0);count+=Number(e.qty)||0;}}));return {total,count,rooms:selectedRooms.size};}
+function updateTotals(){const t=projectCalc();$('projectTotals').innerHTML=`Potência total selecionada: <strong>${t.total.toLocaleString('pt-BR')} W</strong><br><span class="small">${(t.total/1000).toFixed(2).replace('.',',')} kW • ${t.rooms} ambientes • ${t.count} equipamentos (unidades)</span>`;}
+function projectData(){const t=projectCalc();return {id:currentProjectId||Date.now(),name:$('projNome').value||'Projeto sem nome',client:$('projCliente').value,address:$('projEndereco').value,type:$('projTipo').value,voltage:$('projTensao').value,obs:$('projObs').value,plant:$('plantFile').files[0]?.name||$('plantInfo').dataset.filename||'',rooms:Array.from(selectedRooms.values()).map(r=>JSON.parse(JSON.stringify(r))),totalW:t.total,equipmentCount:t.count,date:new Date().toLocaleString('pt-BR')};}
+function saveProject(){if(!selectedRooms.size)return alert('Selecione pelo menos um ambiente.');const p=projectData();const arr=getStore('ei_projects');const ix=arr.findIndex(x=>x.id===p.id);if(ix>=0)arr[ix]=p;else arr.unshift(p);setStore('ei_projects',arr);currentProjectId=p.id;alert('Projeto salvo neste navegador.');}
+function openProject(id){const p=getStore('ei_projects').find(x=>x.id===id);if(!p)return;currentProjectId=p.id;$('projNome').value=p.name||'';$('projCliente').value=p.client||'';$('projEndereco').value=p.address||'';$('projTipo').value=p.type||'Residencial';$('projTensao').value=p.voltage||'127/220';$('projObs').value=p.obs||'';$('plantInfo').dataset.filename=p.plant||'';$('plantInfo').textContent=p.plant?'Arquivo registrado anteriormente: '+p.plant:'Nesta versão, o nome do arquivo será registrado; a leitura automática da planta será implementada em etapa futura.';selectedRooms=new Map((p.rooms||[]).map(r=>[r.name,r]));renderEnvironmentList();renderRooms();updateTotals();showTab('projeto');}
+function projectReport(p){let rows='';(p.rooms||[]).forEach(r=>{rows+=`<h3>${esc(r.name)}</h3><p>Dimensões: ${esc(r.length||'—')} m × ${esc(r.width||'—')} m</p><ul>`;(r.equipment||[]).filter(e=>e.checked).forEach(e=>rows+=`<li>${esc(e.name)} — ${e.qty} un. × ${e.watts} W = ${(e.qty*e.watts).toLocaleString('pt-BR')} W (${esc(e.voltage)} V)</li>`);rows+='</ul>';});return `<h2>Projeto: ${esc(p.name)}</h2><p><b>Cliente:</b> ${esc(p.client)}<br><b>Endereço:</b> ${esc(p.address)}<br><b>Tipo:</b> ${esc(p.type)}<br><b>Tensão de referência:</b> ${esc(p.voltage)} V</p><h3>Resumo das cargas cadastradas</h3><p><b>${(p.totalW||0).toLocaleString('pt-BR')} W (${((p.totalW||0)/1000).toFixed(2)} kW)</b></p>${rows}<p><b>Observações:</b> ${esc(p.obs)}</p><p><b>Planta:</b> ${esc(p.plant||'Não anexada')}</p><hr><p><b>Importante:</b> Este documento apresenta cadastro preliminar de ambientes e cargas informadas. Não é projeto executivo nem comprovação de conformidade com a ABNT NBR 5410. O dimensionamento de condutores, circuitos e dispositivos de proteção exige dados adicionais e validação de profissional habilitado.</p>`;}
+function printProject(){const p=projectData();$('printContent').innerHTML=projectReport(p);$('printArea').classList.add('active');window.print();$('printArea').classList.remove('active');}
+function imprimirOrcamento(){const q=quoteData();$('printContent').innerHTML=`<h2>Orçamento de serviços elétricos</h2><p><b>Cliente:</b> ${esc(q.cliente)}<br><b>Endereço:</b> ${esc(q.endereco)}<br><b>Serviço:</b> ${esc(q.servico)}</p><p>Mão de obra: ${money(q.calc.labor)}<br>Materiais: ${money(q.calc.mat)}<br>Subtotal: ${money(q.calc.subtotal)}<br>Desconto: ${money(q.calc.discount)}</p><h2>Valor final: ${money(q.calc.total)}</h2>`;$('printArea').classList.add('active');window.print();$('printArea').classList.remove('active');}
+function whatsappOrcamento(){const q=quoteData();const msg=`*ORÇAMENTO - ELETRO INTELIGENTE*%0ACliente: ${encodeURIComponent(q.cliente)}%0AEndereço: ${encodeURIComponent(q.endereco)}%0AServiço: ${encodeURIComponent(q.servico)}%0AValor final: ${encodeURIComponent(money(q.calc.total))}`;window.open('https://wa.me/?text='+msg,'_blank');}
+$('plantFile').addEventListener('change',e=>{const f=e.target.files[0];$('plantInfo').textContent=f?'Arquivo selecionado: '+f.name+' (somente nome registrado nesta versão).':'Nenhum arquivo selecionado.';});
+renderEnvironmentList();renderRooms();updateTotals();gerarOrcamento();
 </script>
 </body>
 </html>
